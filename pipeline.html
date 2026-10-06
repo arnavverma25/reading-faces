@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>From frame to label | Reading Faces</title>
+<meta name="description" content="The six-step pipeline from a camera frame to an expression label, Action Units, and three ways to classify an expression.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&amp;family=Roboto+Serif:wght@600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Crect width='30' height='30' fill='%230071ce'/%3E%3Crect x='7' y='8' width='5' height='5' fill='%23fff'/%3E%3Crect x='18' y='8' width='5' height='5' fill='%23fff'/%3E%3Cpath d='M7 18 Q15 26 23 18' fill='none' stroke='%23fff' stroke-width='2.6'/%3E%3C/svg%3E">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="index.html"><svg viewBox="0 0 30 30" aria-hidden="true"><rect width="30" height="30" fill="#0071ce"/><rect x="7" y="8" width="5" height="5" fill="#fff"/><rect x="18" y="8" width="5" height="5" fill="#fff"/><path d="M7 18 Q15 26 23 18" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="square"/></svg><span>Reading Faces</span></a>
+  <nav class="top-links" aria-label="Main">
+    <a href="index.html#contents" class="hide-sm">Contents</a>
+    <a href="try.html" class="hide-sm">Try it</a>
+    <a href="references.html" class="hide-sm">References</a>
+    <a class="btn hide-sm" href="problem.html">Start the tutorial</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="sidebar">Menu</button>
+  </nav>
+</header>
+<div class="shell">
+<nav class="sidebar" id="sidebar" aria-label="Tutorial contents">
+<p class="sidebar-title">Tutorial contents</p>
+<ol>
+<li><a href="index.html"><span class="num"></span><span>Home</span></a></li>
+<li><a href="problem.html"><span class="num">01</span><span>The non-verbal gap</span></a></li>
+<li><a href="sensors.html"><span class="num">02</span><span>Sensor possibilities</span></a></li>
+<li><a href="pipeline.html" aria-current="page"><span class="num">03</span><span>From frame to label</span></a></li>
+<li><a href="video.html"><span class="num">04</span><span>Video and changing emotions</span></a></li>
+<li><a href="occlusion.html"><span class="num">05</span><span>Covered faces and side views</span></a></li>
+<li><a href="build.html"><span class="num">06</span><span>Algorithm and code</span></a></li>
+<li><a href="results.html"><span class="num">07</span><span>Successes and failures</span></a></li>
+<li><a href="challenges.html"><span class="num">08</span><span>The challenges</span></a></li>
+<li><a href="future.html"><span class="num">09</span><span>The future and conclusions</span></a></li>
+</ol><hr><ol>
+<li><a href="try.html"><span class="num"></span><span>Try it</span></a></li>
+<li><a href="references.html"><span class="num"></span><span>References</span></a></li>
+</ol>
+</nav>
+<div class="content">
+<main id="main" class="article">
+<header class="chapter-head">
+  <span class="eyebrow">Chapter 3 of 9</span>
+  <h1>From frame <span class="mark">to label</span></h1>
+  <p class="lead">Getting from a camera frame to one word takes six steps. This chapter walks through them, introduces Action Units, and compares the main ways to do the classification step.</p>
+  <div class="meta-row"><span class="tag blue">3 minute read</span><span class="tag">Algorithms</span></div>
+</header>
+<section class="narration" aria-label="Narration for this page">
+  <div class="narration-top">
+    <audio controls preload="metadata" hidden>
+      <source src="audio/03-pipeline.mp3" type="audio/mpeg">
+      <source src="audio/03-pipeline.m4a" type="audio/mp4">
+    </audio>
+    <button type="button" class="speak" hidden>Play narration</button>
+  </div>
+  <details>
+    <summary>Read the narration text</summary>
+    <div class="transcript"><p>Chapter three, from frame to label.</p><p>The software works in six steps. It finds the face. It places landmarks on the eyes, brows, nose and mouth. It checks whether the view is good enough. It classifies the expression. It smooths the result over time. And it gives the cue to the user.</p><p>To describe expressions, researchers use the Facial Action Coding System. It breaks every expression into numbered muscle movements called Action Units. For example, Action Unit twelve pulls the lip corners up, which is a smile. Some units are on the upper face and some on the lower face. That matters later, because a mask hides the lower ones and sunglasses hide the upper ones.</p><p>There are three ways to classify. You can detect Action Units and apply rules. You can feed the face picture to a small neural network. Or you can use a large transformer. For a phone, I recommend the small network. It is almost as accurate as the large model, and it runs in a fraction of a second.</p><p>One warning about accuracy. Even human annotators agree on only about sixty percent of the images in the main test set.</p></div>
+  </details>
+</section>
+
+<figure>
+  <div class="fig-frame"><svg viewBox="0 0 720 244" role="img" aria-label="Six steps in a row: find the face, place landmarks, check the view, classify the expression, smooth over time, give the cue. A dashed path skips the classifier when the view check fails." xmlns="http://www.w3.org/2000/svg"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#101820"/></marker><marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#0071ce"/></marker><pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#fff"/><line x1="0" y1="0" x2="0" y2="6" stroke="#5f6c7a" stroke-width="1.6"/></pattern></defs><rect x="3" y="46" width="102" height="96" fill="#fff" stroke="#cfd5dc" stroke-width="1.2" /><text x="13" y="72" font-size="20" fill="#8a96a3" text-anchor="start" font-weight="300" >01</text><text x="13" y="100" font-size="13" fill="#101820" text-anchor="start" font-weight="700" >Find</text><text x="13" y="117" font-size="13" fill="#101820" text-anchor="start" font-weight="700" >the face</text><text x="54.0" y="160" font-size="11" fill="#5f6c7a" text-anchor="middle" font-weight="500" >a box</text><line x1="108" y1="94.0" x2="123" y2="94.0" stroke="#101820" stroke-width="1.6" marker-end="url(#ah)" /><rect x="126" y="46" width="102" height="96" fill="#fff" stroke="#cfd5dc" stroke-width="1.2" /><text x="136" y="72" font-size="20" fill="#8a96a3" text-anchor="start" font-weight="300" >02</text><text x="136" y="100" font-size="13" fill="#101820" text-anchor="start" font-weight="700" >Place</text><text x="136" y="117" font-size="13" fill="#101820" text-anchor="start" font-weight="700" >landmarks</text><text x="177.0" y="160" font-size="11" fill="#5f6c7a" text-anchor="middle" font-weight="500" >478 points</text><line x1="231" y1="94.0" x2="246" y2="94.0" stroke="#101820" stroke-width="1.6" marker-end="url(#ah)" /><rect x="249" y="46" width="102" height="96" fill="#fdf1cf" stroke="#d9a200" stroke-width="1.6" /><text x="259" y="72" font-size="20" fill="#8a96a3" text-anchor="start" font-weight="300" >03</text><text x="259" y="100" font-size="13" fill="#101820" text-anchor="start" font-weight="700" >Check</text><text x="259" y="117" font-size="13" fill="#101820" text-anchor="start" font-weight="700" >the view</text><text x="300.0" y="160" font-size="11" fill="#5f6c7a" text-anchor="middle" font-weight="500" >pass or fail</text><text x="259" y="134" font-size="10.5" fill="#c2710c" text-anchor="start" font-weight="700" >Chapter 5</text><line x1="354" y1="94.0" x2="369" y2="94.0" stroke="#101820" stroke-width="1.6" marker-end="url(#ah)" /><rect x="372" y="46" width="102" height="96" fill="#fff" stroke="#cfd5dc" stroke-width="1.2" /><text x="382" y="72" font-size="20" fill="#8a96a3" text-anchor="start" font-weight="300" >04</text><text x="382" y="100" font-size="13" fill="#101820" text-anchor="start" font-weight="700" >Classify</text><text x="382" y="117" font-size="13" fill="#101820" text-anchor="start" font-weight="700" >expression</text><text x="423.0" y="160" font-size="11" fill="#5f6c7a" text-anchor="middle" font-weight="500" >5 scores</text><line x1="477" y1="94.0" x2="492" y2="94.0" stroke="#101820" stroke-width="1.6" marker-end="url(#ah)" /><rect x="495" y="46" width="102" height="96" fill="#e8f2fb" stroke="#0071ce" stroke-width="1.6" /><text x="505" y="72" font-size="20" fill="#8a96a3" text-anchor="start" font-weight="300" >05</text><text x="505" y="100" font-size="13" fill="#101820" text-anchor="start" font-weight="700" >Smooth</text><text x="505" y="117" font-size="13" fill="#101820" text-anchor="start" font-weight="700" >over time</text><text x="546.0" y="160" font-size="11" fill="#5f6c7a" text-anchor="middle" font-weight="500" >a steady label</text><text x="505" y="134" font-size="10.5" fill="#005ba6" text-anchor="start" font-weight="700" >Chapter 4</text><line x1="600" y1="94.0" x2="615" y2="94.0" stroke="#101820" stroke-width="1.6" marker-end="url(#ah)" /><rect x="618" y="46" width="102" height="96" fill="#fff" stroke="#cfd5dc" stroke-width="1.2" /><text x="628" y="72" font-size="20" fill="#8a96a3" text-anchor="start" font-weight="300" >06</text><text x="628" y="100" font-size="13" fill="#101820" text-anchor="start" font-weight="700" >Give</text><text x="628" y="117" font-size="13" fill="#101820" text-anchor="start" font-weight="700" >the cue</text><text x="669.0" y="160" font-size="11" fill="#5f6c7a" text-anchor="middle" font-weight="500" >sound or buzz</text><text x="3" y="24" font-size="12" fill="#101820" text-anchor="start" font-weight="700" >Camera frame in</text><line x1="111" y1="20" x2="153" y2="20" stroke="#101820" stroke-width="1.6" marker-end="url(#ah)" /><text x="161" y="24" font-size="11.5" fill="#5f6c7a" text-anchor="start" font-weight="500" >every step runs on each frame the app decides to process</text><path d="M300.0 172 L300.0 224 L669.0 224 L669.0 174" fill="none" stroke="#c2710c" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ah)"/><text x="484.5" y="216" font-size="11.5" fill="#c2710c" text-anchor="middle" font-weight="700" >view fails: skip the classifier and say “I can't see the face”</text></svg></div>
+  <figcaption><b>Figure 4.</b> The six steps. If the view is poor, step 3 skips the classifier and the user is told. Original diagram made for this tutorial.</figcaption>
+</figure>
+
+<h2>The six steps</h2>
+<ol class="steps">
+  <li><strong>Find the face.</strong> A small detector returns a box around each face.</li>
+  <li><strong>Place landmarks.</strong> Google's Face Landmarker returns 478 three-dimensional points, 52 &ldquo;blendshape&rdquo; scores (numbers from 0 to 1, such as how far the jaw is open) and a matrix describing how the head is turned <a class="cite" href="references.html#ref-4" title="Reference 4">[4]</a>.</li>
+  <li><strong>Check the view.</strong> Is the face big enough, facing the camera and uncovered? If not, stop here (<a href="occlusion.html">Chapter 5</a>).</li>
+  <li><strong>Classify the expression.</strong> One score per label. The rest of this chapter is about this step.</li>
+  <li><strong>Smooth over time.</strong> Many frames become one steady label (<a href="video.html">Chapter 4</a>).</li>
+  <li><strong>Give the cue,</strong> but only when something has changed.</li>
+</ol>
+
+<h2>Action Units: an alphabet for the face</h2>
+<p>The <strong>Facial Action Coding System (FACS)</strong> describes any expression as a set of numbered muscle movements called <strong>Action Units (AUs)</strong>. AU12 pulls the lip corners up. AU4 lowers the brows.</p>
+<figure>
+  <div class="fig-frame"><svg viewBox="0 0 720 372" role="img" aria-label="A face with numbered markers for twelve Action Units, seven on the upper face and five on the lower face." xmlns="http://www.w3.org/2000/svg"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#101820"/></marker><marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#0071ce"/></marker><pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#fff"/><line x1="0" y1="0" x2="0" y2="6" stroke="#5f6c7a" stroke-width="1.6"/></pattern></defs><g transform="translate(204,190)"><ellipse cx="0" cy="0" rx="110.4" ry="138.0" fill="#fff" stroke="#101820" stroke-width="2.2"/><g transform="translate(0.0,0) scale(1.00,1)"><line x1="-66.2" y1="-58.0" x2="-19.3" y2="-58.0" stroke="#101820" stroke-width="2.9" stroke-linecap="round"/><line x1="66.2" y1="-58.0" x2="19.3" y2="-58.0" stroke="#101820" stroke-width="2.9" stroke-linecap="round"/><circle cx="-42.8" cy="-27.6" r="10.3" fill="#101820"/><circle cx="42.8" cy="-27.6" r="10.3" fill="#101820"/><path d="M0 -11.0 L-9.7 22.1 L6.9 22.1" fill="none" stroke="#101820" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/><path d="M-33.1 58.0 L33.1 58.0" fill="none" stroke="#101820" stroke-width="2.9" stroke-linecap="round" stroke-linejoin="round"/></g></g><line x1="14" y1="198" x2="346" y2="198" stroke="#5f6c7a" stroke-width="1.2" stroke-dasharray="5 4"/><text x="14" y="188" font-size="11" fill="#5f6c7a" text-anchor="start" font-weight="700" >upper face</text><text x="14" y="212" font-size="11" fill="#5f6c7a" text-anchor="start" font-weight="700" >lower face</text><circle cx="180.5" cy="112.7" r="11" fill="#0071ce" stroke="#fff" stroke-width="2"/><text x="180.5" y="116.7" font-size="10.5" fill="#fff" text-anchor="middle" font-weight="700" >1</text><circle cx="132.2" cy="110.0" r="11" fill="#0071ce" stroke="#fff" stroke-width="2"/><text x="132.2" y="114.0" font-size="10.5" fill="#fff" text-anchor="middle" font-weight="700" >2</text><circle cx="204.0" cy="129.3" r="11" fill="#0071ce" stroke="#fff" stroke-width="2"/><text x="204.0" y="133.3" font-size="10.5" fill="#fff" text-anchor="middle" font-weight="700" >4</text><circle cx="246.8" cy="144.5" r="11" fill="#0071ce" stroke="#fff" stroke-width="2"/><text x="246.8" y="148.5" font-size="10.5" fill="#fff" text-anchor="middle" font-weight="700" >5</text><circle cx="275.8" cy="187.2" r="11" fill="#0071ce" stroke="#fff" stroke-width="2"/><text x="275.8" y="191.2" font-size="10.5" fill="#fff" text-anchor="middle" font-weight="700" >6</text><circle cx="161.2" cy="180.3" r="11" fill="#0071ce" stroke="#fff" stroke-width="2"/><text x="161.2" y="184.3" font-size="10.5" fill="#fff" text-anchor="middle" font-weight="700" >7</text><circle cx="223.3" cy="192.8" r="11" fill="#0071ce" stroke="#fff" stroke-width="2"/><text x="223.3" y="196.8" font-size="10.5" fill="#fff" text-anchor="middle" font-weight="700" >9</text><circle cx="184.7" cy="231.4" r="11" fill="#c2710c" stroke="#fff" stroke-width="2"/><text x="184.7" y="235.4" font-size="10.5" fill="#fff" text-anchor="middle" font-weight="700" >10</text><circle cx="259.2" cy="242.4" r="11" fill="#c2710c" stroke="#fff" stroke-width="2"/><text x="259.2" y="246.4" font-size="10.5" fill="#fff" text-anchor="middle" font-weight="700" >12</text><circle cx="151.6" cy="261.8" r="11" fill="#c2710c" stroke="#fff" stroke-width="2"/><text x="151.6" y="265.8" font-size="10.5" fill="#fff" text-anchor="middle" font-weight="700" >15</text><circle cx="204.0" cy="264.5" r="11" fill="#c2710c" stroke="#fff" stroke-width="2"/><text x="204.0" y="268.5" font-size="10.5" fill="#fff" text-anchor="middle" font-weight="700" >23</text><circle cx="204.0" cy="300.4" r="11" fill="#c2710c" stroke="#fff" stroke-width="2"/><text x="204.0" y="304.4" font-size="10.5" fill="#fff" text-anchor="middle" font-weight="700" >26</text><text x="392" y="28" font-size="13" fill="#005ba6" text-anchor="start" font-weight="700" >Upper-face Action Units</text><circle cx="402" cy="46" r="10" fill="#0071ce"/><text x="402" y="50" font-size="10" fill="#fff" text-anchor="middle" font-weight="700" >1</text><text x="422" y="50" font-size="12.5" fill="#101820" text-anchor="start" font-weight="500" >Inner brow raiser</text><circle cx="402" cy="70" r="10" fill="#0071ce"/><text x="402" y="74" font-size="10" fill="#fff" text-anchor="middle" font-weight="700" >2</text><text x="422" y="74" font-size="12.5" fill="#101820" text-anchor="start" font-weight="500" >Outer brow raiser</text><circle cx="402" cy="94" r="10" fill="#0071ce"/><text x="402" y="98" font-size="10" fill="#fff" text-anchor="middle" font-weight="700" >4</text><text x="422" y="98" font-size="12.5" fill="#101820" text-anchor="start" font-weight="500" >Brow lowerer</text><circle cx="402" cy="118" r="10" fill="#0071ce"/><text x="402" y="122" font-size="10" fill="#fff" text-anchor="middle" font-weight="700" >5</text><text x="422" y="122" font-size="12.5" fill="#101820" text-anchor="start" font-weight="500" >Upper lid raiser</text><circle cx="402" cy="142" r="10" fill="#0071ce"/><text x="402" y="146" font-size="10" fill="#fff" text-anchor="middle" font-weight="700" >6</text><text x="422" y="146" font-size="12.5" fill="#101820" text-anchor="start" font-weight="500" >Cheek raiser</text><circle cx="402" cy="166" r="10" fill="#0071ce"/><text x="402" y="170" font-size="10" fill="#fff" text-anchor="middle" font-weight="700" >7</text><text x="422" y="170" font-size="12.5" fill="#101820" text-anchor="start" font-weight="500" >Lid tightener</text><circle cx="402" cy="190" r="10" fill="#0071ce"/><text x="402" y="194" font-size="10" fill="#fff" text-anchor="middle" font-weight="700" >9</text><text x="422" y="194" font-size="12.5" fill="#101820" text-anchor="start" font-weight="500" >Nose wrinkler</text><text x="392" y="228" font-size="13" fill="#c2710c" text-anchor="start" font-weight="700" >Lower-face Action Units</text><circle cx="402" cy="246" r="10" fill="#c2710c"/><text x="402" y="250" font-size="10" fill="#fff" text-anchor="middle" font-weight="700" >10</text><text x="422" y="250" font-size="12.5" fill="#101820" text-anchor="start" font-weight="500" >Upper lip raiser</text><circle cx="402" cy="270" r="10" fill="#c2710c"/><text x="402" y="274" font-size="10" fill="#fff" text-anchor="middle" font-weight="700" >12</text><text x="422" y="274" font-size="12.5" fill="#101820" text-anchor="start" font-weight="500" >Lip corner puller (smile)</text><circle cx="402" cy="294" r="10" fill="#c2710c"/><text x="402" y="298" font-size="10" fill="#fff" text-anchor="middle" font-weight="700" >15</text><text x="422" y="298" font-size="12.5" fill="#101820" text-anchor="start" font-weight="500" >Lip corner depressor</text><circle cx="402" cy="318" r="10" fill="#c2710c"/><text x="402" y="322" font-size="10" fill="#fff" text-anchor="middle" font-weight="700" >23</text><text x="422" y="322" font-size="12.5" fill="#101820" text-anchor="start" font-weight="500" >Lip tightener</text><circle cx="402" cy="342" r="10" fill="#c2710c"/><text x="402" y="346" font-size="10" fill="#fff" text-anchor="middle" font-weight="700" >26</text><text x="422" y="346" font-size="12.5" fill="#101820" text-anchor="start" font-weight="500" >Jaw drop</text><text x="392" y="384" font-size="11.5" fill="#5f6c7a" text-anchor="start" font-weight="500" >A mask hides the amber units.</text><text x="392" y="400" font-size="11.5" fill="#5f6c7a" text-anchor="start" font-weight="500" >Sunglasses hide most of the blue ones.</text></svg></div>
+  <figcaption><b>Figure 5.</b> Twelve common Action Units and where they act. Original diagram made for this tutorial; unit names follow FACS as listed in <a class="cite" href="references.html#ref-7" title="Reference 7">[7]</a>.</figcaption>
+</figure>
+<p>The CK+ dataset used these rules to decide which label a coded expression could receive <a class="cite" href="references.html#ref-7" title="Reference 7">[7]</a>.</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Label</th><th>Action Units that must be present</th><th>Part of the face</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Happy</th><td>AU12</td><td>Lower</td></tr>
+    <tr><th scope="row">Sadness</th><td>AU1 + AU4 + AU15</td><td>Upper and lower</td></tr>
+    <tr><th scope="row">Surprise</th><td>AU1 + AU2, or AU5</td><td>Upper</td></tr>
+    <tr><th scope="row">Fear</th><td>AU1 + AU2 + AU4</td><td>Upper</td></tr>
+    <tr><th scope="row">Anger</th><td>AU23 and AU24 (tight, pressed lips)</td><td>Lower</td></tr>
+    <tr><th scope="row">Disgust</th><td>AU9 or AU10</td><td>Middle</td></tr>
+    <tr><th scope="row">Contempt</th><td>AU14</td><td>Lower</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="note">
+  <span class="note-title">Why this table matters later</span>
+  Cover the mouth and the rule for &ldquo;happy&rdquo; has nothing to work with. Cover the eyes and brows and &ldquo;surprise&rdquo; and &ldquo;fear&rdquo; are gone.
+</div>
+
+<h2>Three ways to classify</h2>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Route</th><th>How it works</th><th>Reported accuracy</th><th>Speed and size</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">A. Action Units, then rules</th><td>Measure AUs or blendshapes, then apply rules like the table above.</td><td>LibreFace detects AUs with an F1 score of 62.0 on BP4D <a class="cite" href="references.html#ref-8" title="Reference 8">[8]</a>. AU errors pass on to the label.</td><td>About 27 frames per second on a CPU <a class="cite" href="references.html#ref-8" title="Reference 8">[8]</a></td></tr>
+    <tr><th scope="row">B. Small network</th><td>Give the face crop to a compact network such as MobileNet or EfficientNet.</td><td>AffectNet, 7 labels: 64.7% (MobileNet) to 66.3% (EfficientNet-B2) <a class="cite" href="references.html#ref-9" title="Reference 9">[9]</a></td><td>16 ms and 14 MB up to 191 ms and 30 MB per face on an Android phone <a class="cite" href="references.html#ref-9" title="Reference 9">[9]</a></td></tr>
+    <tr><th scope="row">C. Large transformer</th><td>A vision transformer looks at the face, sometimes with the landmarks.</td><td>POSTER: 92.05% on RAF-DB, 67.31% on AffectNet <a class="cite" href="references.html#ref-2" title="Reference 2">[2]</a></td><td>A recent example: 86 million parameters, 331 MB <a class="cite" href="references.html#ref-6" title="Reference 6">[6]</a></td></tr>
+  </tbody>
+</table>
+</div>
+<ul>
+  <li><strong>Route A is the easiest to explain</strong> and can ignore hidden AUs, but it stacks two sources of error.</li>
+  <li><strong>Route B fits a phone best:</strong> small, fast, trained end to end. You cannot see why it chose a label.</li>
+  <li><strong>Route C is the most accurate, by about one point</strong> on AffectNet (67.3% against 66.3%), at roughly ten times the file size.</li>
+</ul>
+<div class="note good">
+  <span class="note-title">My choice, and when I would choose differently</span>
+  Route B for the label, plus the landmarks from step 2 for the view check. Route A when the face is half covered and only some AUs can be trusted. Route C only when a server is acceptable.
+</div>
+
+<h2>How good is &ldquo;good&rdquo;?</h2>
+<p>People do not agree either: two annotators labelling the same AffectNet images agreed on 60.7% of them <a class="cite" href="references.html#ref-10" title="Reference 10">[10]</a>. A model at 66% is near the point where the labels themselves are uncertain. Yet the best models pass 92% on RAF-DB <a class="cite" href="references.html#ref-2" title="Reference 2">[2]</a>. The score depends on the test set as much as on the model (<a href="results.html">Chapter 7</a>).</p>
+<div class="note plain">
+  <span class="note-title">The test sets named in this tutorial</span>
+  AffectNet, RAF-DB and FERPlus are collections of natural face photos with expression labels. AffectNet is the largest and has the lowest scores. DFEW is a collection of short movie clips.
+</div>
+
+<nav class="pager" aria-label="Previous and next page">
+<a class="prev" href="sensors.html"><span class="dir">Previous</span><span class="ttl">Sensor possibilities</span></a>
+<a class="next" href="video.html"><span class="dir">Next</span><span class="ttl">Video and changing emotions</span></a>
+</nav>
+</main>
+<footer class="site-footer">
+  <div class="article">
+    <span>Reading Faces, a research tutorial by Arnav Verma for CS 663 Computer Vision, Fall 2026.</span>
+    <span><a href="references.html">Annotated bibliography</a></span>
+  </div>
+</footer>
+</div>
+</div>
+<script src="js/site.js"></script>
+</body>
+</html>

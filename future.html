@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The future and conclusions | Reading Faces</title>
+<meta name="description" content="Better feedback than a spoken word, open research directions, groups to follow, a recommended design and the main conclusions of the tutorial.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&amp;family=Roboto+Serif:wght@600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Crect width='30' height='30' fill='%230071ce'/%3E%3Crect x='7' y='8' width='5' height='5' fill='%23fff'/%3E%3Crect x='18' y='8' width='5' height='5' fill='%23fff'/%3E%3Cpath d='M7 18 Q15 26 23 18' fill='none' stroke='%23fff' stroke-width='2.6'/%3E%3C/svg%3E">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="index.html"><svg viewBox="0 0 30 30" aria-hidden="true"><rect width="30" height="30" fill="#0071ce"/><rect x="7" y="8" width="5" height="5" fill="#fff"/><rect x="18" y="8" width="5" height="5" fill="#fff"/><path d="M7 18 Q15 26 23 18" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="square"/></svg><span>Reading Faces</span></a>
+  <nav class="top-links" aria-label="Main">
+    <a href="index.html#contents" class="hide-sm">Contents</a>
+    <a href="try.html" class="hide-sm">Try it</a>
+    <a href="references.html" class="hide-sm">References</a>
+    <a class="btn hide-sm" href="problem.html">Start the tutorial</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="sidebar">Menu</button>
+  </nav>
+</header>
+<div class="shell">
+<nav class="sidebar" id="sidebar" aria-label="Tutorial contents">
+<p class="sidebar-title">Tutorial contents</p>
+<ol>
+<li><a href="index.html"><span class="num"></span><span>Home</span></a></li>
+<li><a href="problem.html"><span class="num">01</span><span>The non-verbal gap</span></a></li>
+<li><a href="sensors.html"><span class="num">02</span><span>Sensor possibilities</span></a></li>
+<li><a href="pipeline.html"><span class="num">03</span><span>From frame to label</span></a></li>
+<li><a href="video.html"><span class="num">04</span><span>Video and changing emotions</span></a></li>
+<li><a href="occlusion.html"><span class="num">05</span><span>Covered faces and side views</span></a></li>
+<li><a href="build.html"><span class="num">06</span><span>Algorithm and code</span></a></li>
+<li><a href="results.html"><span class="num">07</span><span>Successes and failures</span></a></li>
+<li><a href="challenges.html"><span class="num">08</span><span>The challenges</span></a></li>
+<li><a href="future.html" aria-current="page"><span class="num">09</span><span>The future and conclusions</span></a></li>
+</ol><hr><ol>
+<li><a href="try.html"><span class="num"></span><span>Try it</span></a></li>
+<li><a href="references.html"><span class="num"></span><span>References</span></a></li>
+</ol>
+</nav>
+<div class="content">
+<main id="main" class="article">
+<header class="chapter-head">
+  <span class="eyebrow">Chapter 9 of 9</span>
+  <h1>The future <span class="mark">and conclusions</span></h1>
+  <p class="lead">Where is this heading, and what would I build today with what the research already offers?</p>
+  <div class="meta-row"><span class="tag blue">2 minute read</span><span class="tag">Conclusions</span></div>
+</header>
+<section class="narration" aria-label="Narration for this page">
+  <div class="narration-top">
+    <audio controls preload="metadata" hidden>
+      <source src="audio/09-future.mp3" type="audio/mpeg">
+      <source src="audio/09-future.m4a" type="audio/mp4">
+    </audio>
+    <button type="button" class="speak" hidden>Play narration</button>
+  </div>
+  <details>
+    <summary>Read the narration text</summary>
+    <div class="transcript"><p>Chapter nine, the future and conclusions.</p><p>The first open question is the cue itself. A spoken word is slow and it talks over the conversation. Research with blind and low-vision participants suggests a mix: a vibration for something that lasts, and a short sound for something that happens once. And only a few different cues.</p><p>The research is moving in four directions. Using Action Units to make the result easier to explain. Learning from unlabelled video. Detecting covers the system has never seen. And saving energy by looking at fewer frames. What is still missing is a test with blind and low-vision users in real conversations.</p><p>What would I build? A camera on glasses, with the computing on the phone. A small network for the label. A view check that makes the system stay quiet when the face is covered or turned. Smoothing over about half a second. And a short sound that means smiling, not happy.</p><p>Thank you for following this tutorial. On the next page you can try the ideas yourself in the simulator and take the quiz.</p></div>
+  </details>
+</section>
+
+<h2>Better cues than a spoken word</h2>
+<p>A spoken word is slow and covers what the partner is saying. The study from Chapter 1 used a different mix <a class="cite" href="references.html#ref-1" title="Reference 1">[1]</a>: a vibration for a state that lasts (eye contact) and a short sound for something that happens once (a nod). Participants liked that a vibration did not interrupt their listening, and found sounds better for telling cues apart.</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Cue</th><th>Time it takes</th><th>How many meanings</th><th>Disturbs listening</th><th>Best for</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Spoken word</th><td>Long</td><td>Many, no learning needed</td><td>Yes</td><td>First use, and rare events</td></tr>
+    <tr><th scope="row">Short sound</th><td>Short</td><td>A few, must be learned</td><td>A little</td><td>Events: a smile starts, surprise</td></tr>
+    <tr><th scope="row">Vibration</th><td>Short</td><td>Very few</td><td>No</td><td>Lasting states: &ldquo;face in view&rdquo;, &ldquo;still smiling&rdquo;</td></tr>
+  </tbody>
+</table>
+</div>
+<p>This table is my own summary. The clear research finding is the limit on quantity: five cues were too many <a class="cite" href="references.html#ref-1" title="Reference 1">[1]</a>.</p>
+
+<h2>Where the research is going</h2>
+<ul>
+  <li><strong>Action Units as a helper.</strong> The 2024 survey names AU-assisted recognition as a direction because it is easier to explain <a class="cite" href="references.html#ref-2" title="Reference 2">[2]</a>, and open toolkits now deliver AUs in real time <a class="cite" href="references.html#ref-8" title="Reference 8">[8]</a>.</li>
+  <li><strong>Learning from unlabelled video</strong> raised video accuracy by 5 to 6 points over earlier supervised methods <a class="cite" href="references.html#ref-12" title="Reference 12">[12]</a>. Next, such models must shrink.</li>
+  <li><strong>Covers never seen before.</strong> Detectors trained only on clean faces can flag any object in front of the face <a class="cite" href="references.html#ref-17" title="Reference 17">[17]</a>.</li>
+  <li><strong>Less energy per decision.</strong> Adaptive frame rates <a class="cite" href="references.html#ref-14" title="Reference 14">[14]</a> suit wearables. I found no assistive device that uses them yet.</li>
+  <li><strong>Tests with real users.</strong> The assistive prototypes stop at classifier accuracy <a class="cite" href="references.html#ref-5" title="Reference 5">[5]</a>, <a class="cite" href="references.html#ref-6" title="Reference 6">[6]</a>. Studies with BLV users in everyday conversation are the missing piece.</li>
+</ul>
+
+<h2>Groups to follow</h2>
+<p>Shiri Azenkot's group at Cornell Tech (accessible non-verbal cues <a class="cite" href="references.html#ref-1" title="Reference 1">[1]</a>), Andrey Savchenko at HSE University (expression recognition on phones <a class="cite" href="references.html#ref-9" title="Reference 9">[9]</a>), and Mohammad Soleymani's group at the University of Southern California (the open LibreFace toolkit <a class="cite" href="references.html#ref-8" title="Reference 8">[8]</a>).</p>
+
+<h2>What I would build today</h2>
+<ol class="steps">
+  <li><strong>Camera on glasses, computing on the phone.</strong> Best view, enough battery, no video leaves the user's devices.</li>
+  <li><strong>A small trained network for the label,</strong> about the size of EfficientNet-B0, quantized.</li>
+  <li><strong>A view check first:</strong> face size, head angle and a small cover detector. When it fails, the device says so.</li>
+  <li><strong>Smoothing over about half a second,</strong> with fewer frames when the face is steady.</li>
+  <li><strong>Two or three cues that describe:</strong> a sound for &ldquo;smiling&rdquo;, one for &ldquo;surprised&rdquo;, a vibration for &ldquo;I cannot see the face&rdquo;.</li>
+</ol>
+
+<h2>Five things to remember</h2>
+<div class="cols">
+  <div class="box"><h3>1. The photo case is solved; the conversation case is not.</h3><p>Above 92% on clean test photos, near 67% on natural ones.</p></div>
+  <div class="box"><h3>2. Time is part of the method.</h3><p>Smoothing makes a flickering label usable, at the price of a short delay.</p></div>
+  <div class="box"><h3>3. Knowing when not to answer is a feature.</h3><p>Covered and turned faces should lower the trust or silence the device.</p></div>
+  <div class="box"><h3>4. The network is not the slow part.</h3><p>Waiting to be sure and speaking take longer.</p></div>
+  <div class="box blue" style="grid-column:1 / -1"><h3>5. A face movement is not a feeling.</h3><p>The honest output is &ldquo;smiling&rdquo;, and the user decides what it means.</p></div>
+</div>
+<p style="margin-top:2rem"><a class="btn" href="try.html">Try the simulator and the quiz</a></p>
+
+<nav class="pager" aria-label="Previous and next page">
+<a class="prev" href="challenges.html"><span class="dir">Previous</span><span class="ttl">The challenges</span></a>
+<a class="next" href="try.html"><span class="dir">Next</span><span class="ttl">Try it: simulator and quiz</span></a>
+</nav>
+</main>
+<footer class="site-footer">
+  <div class="article">
+    <span>Reading Faces, a research tutorial by Arnav Verma for CS 663 Computer Vision, Fall 2026.</span>
+    <span><a href="references.html">Annotated bibliography</a></span>
+  </div>
+</footer>
+</div>
+</div>
+<script src="js/site.js"></script>
+</body>
+</html>

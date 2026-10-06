@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Try it: simulator and quiz | Reading Faces</title>
+<meta name="description" content="An interactive simulator for temporal smoothing, covered faces and head angle in facial expression recognition, followed by an eight-question quiz.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&amp;family=Roboto+Serif:wght@600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Crect width='30' height='30' fill='%230071ce'/%3E%3Crect x='7' y='8' width='5' height='5' fill='%23fff'/%3E%3Crect x='18' y='8' width='5' height='5' fill='%23fff'/%3E%3Cpath d='M7 18 Q15 26 23 18' fill='none' stroke='%23fff' stroke-width='2.6'/%3E%3C/svg%3E">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="index.html"><svg viewBox="0 0 30 30" aria-hidden="true"><rect width="30" height="30" fill="#0071ce"/><rect x="7" y="8" width="5" height="5" fill="#fff"/><rect x="18" y="8" width="5" height="5" fill="#fff"/><path d="M7 18 Q15 26 23 18" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="square"/></svg><span>Reading Faces</span></a>
+  <nav class="top-links" aria-label="Main">
+    <a href="index.html#contents" class="hide-sm">Contents</a>
+    <a href="try.html" class="hide-sm" aria-current="page">Try it</a>
+    <a href="references.html" class="hide-sm">References</a>
+    <a class="btn hide-sm" href="problem.html">Start the tutorial</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="sidebar">Menu</button>
+  </nav>
+</header>
+<div class="shell">
+<nav class="sidebar" id="sidebar" aria-label="Tutorial contents">
+<p class="sidebar-title">Tutorial contents</p>
+<ol>
+<li><a href="index.html"><span class="num"></span><span>Home</span></a></li>
+<li><a href="problem.html"><span class="num">01</span><span>The non-verbal gap</span></a></li>
+<li><a href="sensors.html"><span class="num">02</span><span>Sensor possibilities</span></a></li>
+<li><a href="pipeline.html"><span class="num">03</span><span>From frame to label</span></a></li>
+<li><a href="video.html"><span class="num">04</span><span>Video and changing emotions</span></a></li>
+<li><a href="occlusion.html"><span class="num">05</span><span>Covered faces and side views</span></a></li>
+<li><a href="build.html"><span class="num">06</span><span>Algorithm and code</span></a></li>
+<li><a href="results.html"><span class="num">07</span><span>Successes and failures</span></a></li>
+<li><a href="challenges.html"><span class="num">08</span><span>The challenges</span></a></li>
+<li><a href="future.html"><span class="num">09</span><span>The future and conclusions</span></a></li>
+</ol><hr><ol>
+<li><a href="try.html" aria-current="page"><span class="num"></span><span>Try it</span></a></li>
+<li><a href="references.html"><span class="num"></span><span>References</span></a></li>
+</ol>
+</nav>
+<div class="content">
+<main id="main" class="article">
+<header class="chapter-head">
+  <span class="eyebrow">Interactive activity</span>
+  <h1>Try it <span class="mark">yourself</span></h1>
+  <p class="lead">Change the smoothing, cover the face, turn the head, and watch what the device would say. Then check what you remember with eight questions.</p>
+  <div class="meta-row"><span class="tag blue">4 minute read</span><span class="tag">Simulator</span><span class="tag">Quiz</span></div>
+</header>
+<section class="narration" aria-label="Narration for this page">
+  <div class="narration-top">
+    <audio controls preload="metadata" hidden>
+      <source src="audio/10-try.mp3" type="audio/mpeg">
+      <source src="audio/10-try.m4a" type="audio/mp4">
+    </audio>
+    <button type="button" class="speak" hidden>Play narration</button>
+  </div>
+  <details>
+    <summary>Read the narration text</summary>
+    <div class="transcript"><p>This is the interactive page.</p><p>At the top is a simulator. It plays a twenty-second conversation in which the partner smiles, looks surprised, looks sad and then looks angry.</p><p>There are three coloured strips. The first shows what the partner really does. The second shows a classifier that looks at one frame at a time. The third shows what the device would tell the user after smoothing. A small triangle marks each moment the device speaks.</p><p>You can change three sliders: the smoothing window, the confidence threshold and the head angle. You can also add a mask, sunglasses or low light. The four numbers under the strips show how well the device did.</p><p>Try it without smoothing first and count the wrong cues. Then increase the window and watch them disappear while the delay grows. Then add a mask and see which expressions are missed.</p><p>The simulator uses an invented noise model. It shows how the method behaves, not how accurate a real system is.</p><p>Below the simulator is a quiz with eight questions and instant feedback.</p></div>
+  </details>
+</section>
+
+<h2>The conversation simulator</h2>
+<p>A conversation partner goes through four expressions in 20 seconds. The first strip is the truth. The second is a classifier that judges every frame on its own. The third is what the device would tell the user after smoothing and the &ldquo;stay quiet&rdquo; rule from <a href="build.html">Chapter 6</a>.</p>
+
+<div class="sim" id="sim">
+  <div class="presets">
+    <span>Start from</span>
+    <button type="button" data-preset="lab">Clear front view</button>
+    <button type="button" data-preset="raw">No smoothing</button>
+    <button type="button" data-preset="mask">Face mask</button>
+    <button type="button" data-preset="sunglasses">Sunglasses</button>
+    <button type="button" data-preset="side">Turned 45&deg;</button>
+    <button type="button" data-preset="all">Everything at once</button>
+  </div>
+  <div class="sim-controls">
+    <div>
+      <label for="s-window">Smoothing window <output id="o-window"></output></label>
+      <input type="range" id="s-window" min="1" max="45" step="1" value="12">
+    </div>
+    <div>
+      <label for="s-threshold">Confidence to speak <output id="o-threshold"></output></label>
+      <input type="range" id="s-threshold" min="30" max="90" step="5" value="60">
+    </div>
+    <div>
+      <label for="s-yaw">Head turned away <output id="o-yaw"></output></label>
+      <input type="range" id="s-yaw" min="0" max="90" step="5" value="0">
+    </div>
+    <div class="checks">
+      <label><input type="checkbox" id="s-mask"> Face mask</label>
+      <label><input type="checkbox" id="s-sunglasses"> Sunglasses</label>
+      <label><input type="checkbox" id="s-light"> Low light</label>
+    </div>
+  </div>
+  <div class="sim-top">
+    <div class="sim-face">
+      <svg id="sim-face" viewBox="-60 -66 120 132" role="img" aria-label="Drawing of the partner's face at the current moment">
+        <ellipse cx="0" cy="0" rx="44" ry="56" fill="#fff" stroke="#101820" stroke-width="2.5"/>
+        <g id="f-features">
+          <line id="f-browL" x1="-27" y1="-24" x2="-8" y2="-24" stroke="#101820" stroke-width="3.2" stroke-linecap="round"/>
+          <line id="f-browR" x1="27" y1="-24" x2="8" y2="-24" stroke="#101820" stroke-width="3.2" stroke-linecap="round"/>
+          <circle id="f-eyeL" cx="-17" cy="-11" r="4.2" fill="#101820"/>
+          <circle id="f-eyeR" cx="17" cy="-11" r="4.2" fill="#101820"/>
+          <path d="M0 -4 L-4 9 L3 9" fill="none" stroke="#101820" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+          <path id="f-mouth" d="M-13 24 L13 24" fill="none" stroke="#101820" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <g id="f-sunglasses" style="display:none">
+            <rect x="-28.6" y="-20.2" width="22.4" height="16.8" fill="#101820"/>
+            <rect x="6.2" y="-20.2" width="22.4" height="16.8" fill="#101820"/>
+            <line x1="-6.2" y1="-13.4" x2="6.2" y2="-13.4" stroke="#101820" stroke-width="2.5"/>
+          </g>
+        </g>
+        <path id="f-mask" style="display:none" d="M-40.3 -1.1 Q0 -11.2 40.3 -1.1 L33.6 34.7 Q0 57.1 -33.6 34.7 Z" fill="#e8f2fb" stroke="#0071ce" stroke-width="2.5"/>
+        <path id="f-shade" style="display:none" d="" fill="#eef1f4" stroke="#101820" stroke-width="2.5"/>
+        <rect id="f-dark" style="display:none" x="-60" y="-66" width="120" height="132" fill="#101820" opacity="0.45"/>
+      </svg>
+      <div class="sim-say" id="sim-say" aria-live="polite">Device: <small>press Play</small></div>
+      <div class="sim-actions" style="justify-content:center">
+        <button type="button" class="primary" id="sim-play">Play</button>
+        <button type="button" id="sim-reset">Restart</button>
+      </div>
+    </div>
+    <div class="sim-strips">
+      <div class="strip-row"><span class="strip-name">What the partner does</span><canvas id="c-truth" height="30"></canvas></div>
+      <div class="strip-row"><span class="strip-name">One frame at a time</span><canvas id="c-raw" height="30"></canvas></div>
+      <div class="strip-row"><span class="strip-name">What the device tells the user</span><canvas id="c-out" height="46"></canvas></div>
+      <div class="strip-axis" aria-hidden="true"><span>0 s</span><span>5 s</span><span>10 s</span><span>15 s</span><span>20 s</span></div>
+      <div class="legend" aria-hidden="true">
+        <span><i style="background:#c3ccd6"></i>neutral</span>
+        <span><i style="background:#eda100"></i>happy</span>
+        <span><i style="background:#0071ce"></i>surprised</span>
+        <span><i style="background:#4a3aa7"></i>sad</span>
+        <span><i style="background:#e34948"></i>angry</span>
+        <span><i class="hatch"></i>quiet (not sure, or face turned away)</span>
+        <span>&#9650; correct cue</span>
+        <span>&#10005; wrong cue</span>
+      </div>
+      <p class="strip-hint">Click anywhere on the strips to jump to that moment.</p>
+    </div>
+  </div>
+  <div class="sim-stats" id="sim-stats" aria-live="polite">
+    <div><b id="st-acc">-</b><span>frame-by-frame accuracy</span></div>
+    <div><b id="st-caught">-</b><span>expressions the device reported</span></div>
+    <div><b id="st-wrong">-</b><span>wrong cues spoken</span></div>
+    <div><b id="st-delay">-</b><span>average delay of a correct cue</span></div>
+  </div>
+</div>
+<noscript><p class="note warn">The simulator and the quiz need JavaScript. Please turn it on in your browser.</p></noscript>
+<p class="strip-hint" id="sim-summary"></p>
+
+<div class="note plain">
+  <span class="note-title">What is real here and what is not</span>
+  The smoothing, the threshold and the quiet rule are the real algorithm from Chapter 6. The frame-by-frame classifier is imitated with invented noise: a mask weakens mouth-based expressions, sunglasses weaken eye-based ones, and a turned head weakens everything. So the simulator shows how the method behaves. It does not measure how accurate any real system is.
+</div>
+
+<h3>Five things to try</h3>
+<ol class="steps">
+  <li><strong>Switch smoothing off.</strong> Press &ldquo;No smoothing&rdquo;. Count the wrong cues a listener would hear in 20 seconds.</li>
+  <li><strong>Find the smallest window that works.</strong> Slide the smoothing window up until the wrong cues are gone. What happened to the delay?</li>
+  <li><strong>Cover the mouth, then the eyes.</strong> Press &ldquo;Face mask&rdquo;, then &ldquo;Sunglasses&rdquo;. Which expressions does each one take away? Compare with the table in Chapter 5.</li>
+  <li><strong>Turn the head.</strong> Move the head angle to 45&deg; and then past 60&deg;. Watch the third strip.</li>
+  <li><strong>Make it hard.</strong> Press &ldquo;Everything at once&rdquo;. The device goes almost silent. Is that better or worse than guessing?</li>
+</ol>
+
+<h2 id="quiz-title">Check yourself</h2>
+<p>Eight questions on the main ideas. Pick an answer to see at once whether it is right, and why.</p>
+<div class="quiz" id="quiz"></div>
+
+<nav class="pager" aria-label="Previous and next page">
+<a class="prev" href="future.html"><span class="dir">Previous</span><span class="ttl">The future and conclusions</span></a>
+<a class="next" href="references.html"><span class="dir">Next</span><span class="ttl">References</span></a>
+</nav>
+</main>
+<footer class="site-footer">
+  <div class="article">
+    <span>Reading Faces, a research tutorial by Arnav Verma for CS 663 Computer Vision, Fall 2026.</span>
+    <span><a href="references.html">Annotated bibliography</a></span>
+  </div>
+</footer>
+</div>
+</div>
+<script src="js/site.js"></script>
+<script src="js/sim-core.js"></script>
+<script src="js/sim.js"></script>
+<script src="js/quiz.js"></script>
+</body>
+</html>

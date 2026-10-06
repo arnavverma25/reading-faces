@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Algorithm and code | Reading Faces</title>
+<meta name="description" content="The complete method as a seven-step algorithm and a short Python program using MediaPipe Face Landmarker, with the alternatives for each design choice.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&amp;family=Roboto+Serif:wght@600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Crect width='30' height='30' fill='%230071ce'/%3E%3Crect x='7' y='8' width='5' height='5' fill='%23fff'/%3E%3Crect x='18' y='8' width='5' height='5' fill='%23fff'/%3E%3Cpath d='M7 18 Q15 26 23 18' fill='none' stroke='%23fff' stroke-width='2.6'/%3E%3C/svg%3E">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="index.html"><svg viewBox="0 0 30 30" aria-hidden="true"><rect width="30" height="30" fill="#0071ce"/><rect x="7" y="8" width="5" height="5" fill="#fff"/><rect x="18" y="8" width="5" height="5" fill="#fff"/><path d="M7 18 Q15 26 23 18" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="square"/></svg><span>Reading Faces</span></a>
+  <nav class="top-links" aria-label="Main">
+    <a href="index.html#contents" class="hide-sm">Contents</a>
+    <a href="try.html" class="hide-sm">Try it</a>
+    <a href="references.html" class="hide-sm">References</a>
+    <a class="btn hide-sm" href="problem.html">Start the tutorial</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="sidebar">Menu</button>
+  </nav>
+</header>
+<div class="shell">
+<nav class="sidebar" id="sidebar" aria-label="Tutorial contents">
+<p class="sidebar-title">Tutorial contents</p>
+<ol>
+<li><a href="index.html"><span class="num"></span><span>Home</span></a></li>
+<li><a href="problem.html"><span class="num">01</span><span>The non-verbal gap</span></a></li>
+<li><a href="sensors.html"><span class="num">02</span><span>Sensor possibilities</span></a></li>
+<li><a href="pipeline.html"><span class="num">03</span><span>From frame to label</span></a></li>
+<li><a href="video.html"><span class="num">04</span><span>Video and changing emotions</span></a></li>
+<li><a href="occlusion.html"><span class="num">05</span><span>Covered faces and side views</span></a></li>
+<li><a href="build.html" aria-current="page"><span class="num">06</span><span>Algorithm and code</span></a></li>
+<li><a href="results.html"><span class="num">07</span><span>Successes and failures</span></a></li>
+<li><a href="challenges.html"><span class="num">08</span><span>The challenges</span></a></li>
+<li><a href="future.html"><span class="num">09</span><span>The future and conclusions</span></a></li>
+</ol><hr><ol>
+<li><a href="try.html"><span class="num"></span><span>Try it</span></a></li>
+<li><a href="references.html"><span class="num"></span><span>References</span></a></li>
+</ol>
+</nav>
+<div class="content">
+<main id="main" class="article">
+<header class="chapter-head">
+  <span class="eyebrow">Chapter 6 of 9</span>
+  <h1>Algorithm <span class="mark">and code</span></h1>
+  <p class="lead">Here is the whole method from Chapters 3 to 5, first as an algorithm in plain words and then as a short Python program that runs on a laptop webcam.</p>
+  <div class="meta-row"><span class="tag blue">3 minute read</span><span class="tag">Code</span></div>
+</header>
+<section class="narration" aria-label="Narration for this page">
+  <div class="narration-top">
+    <audio controls preload="metadata" hidden>
+      <source src="audio/06-build.mp3" type="audio/mpeg">
+      <source src="audio/06-build.m4a" type="audio/mp4">
+    </audio>
+    <button type="button" class="speak" hidden>Play narration</button>
+  </div>
+  <details>
+    <summary>Read the narration text</summary>
+    <div class="transcript"><p>Chapter six, algorithm and code.</p><p>The algorithm has seven steps and runs once for every camera frame. Find the face. Measure how big it is and how far it is turned. If the view is too poor, stop and tell the user. Otherwise, score each expression. Blend the scores into a running average, and let poor frames count less. Pick a label only if the average is clearly above the threshold. And speak only when the label changes.</p><p>The Python program on this page does exactly that. It uses Google's Face Landmarker to get landmarks, blendshape values and the head angle. The scoring function is a set of Action Unit rules. It compares the face with the same person's resting face, so only the change counts. For example, the smile score is how far the mouth-smile value has risen.</p><p>I chose rules because you can read them. A trained network is more accurate, and you can swap it in by replacing one function. The page lists that and the other alternatives.</p><p>The program does not detect masks or glasses, and it handles one face only. Those are the next things to add.</p></div>
+  </details>
+</section>
+
+<h2>The algorithm</h2>
+<p>These steps run once for every frame that the app decides to process.</p>
+<ol class="steps">
+  <li><strong>Find the face and its landmarks.</strong> No face: report it once and wait.</li>
+  <li><strong>Measure the view:</strong> face width in pixels, and the head angles yaw and pitch.</li>
+  <li><strong>Gate.</strong> Too small or turned too far: skip the classifier and report &ldquo;cannot see the face well&rdquo;. Otherwise give the frame a trust value from 0.3 to 1.</li>
+  <li><strong>Score.</strong> Compare the face with the same person's resting face, measured during the first second and a half. The result is five scores that add up to 1, one per label.</li>
+  <li><strong>Smooth.</strong> Blend the scores into a running average. Low trust moves it less.</li>
+  <li><strong>Decide.</strong> Highest average above the threshold: that is the label. Otherwise &ldquo;not sure&rdquo;.</li>
+  <li><strong>Speak</strong> only when the label changes to a new expression.</li>
+</ol>
+
+<h2>The code</h2>
+<p>The program is about 200 lines of Python. The parts below hold the logic; the rest opens the camera and calls Google's Face Landmarker as its documentation describes <a class="cite" href="references.html#ref-4" title="Reference 4">[4]</a>. <a href="code/expression_stream.py" download>Download the full file</a>.</p>
+
+<h3>Step 4: scoring with Action Unit rules</h3>
+<p>Several of the 52 blendshape values match Action Units closely, so rules like those in <a href="pipeline.html">Chapter 3</a> can be written down. The program first reduces the blendshapes to eight features.</p>
+<pre><code><span class="k">def</span> features(blend):
+    <span class="c">"""Reduce the 52 blendshape values (each 0 to 1) to the eight that the rules
+    use. Left and right are averaged. Each one is close to an Action Unit."""</span>
+    <span class="k">def</span> both(name):
+        <span class="k">return</span> (blend.get(name + <span class="s">"Left"</span>, 0.0) + blend.get(name + <span class="s">"Right"</span>, 0.0)) / 2
+
+    brows = blend.get(<span class="s">"browInnerUp"</span>, 0.0) + both(<span class="s">"browOuterUp"</span>)
+    lips = both(<span class="s">"mouthPress"</span>) + blend.get(<span class="s">"mouthRollLower"</span>, 0.0)
+    <span class="k">return</span> {
+        <span class="s">"smile"</span>: both(<span class="s">"mouthSmile"</span>),                   <span class="c"># AU12 lip corner puller</span>
+        <span class="s">"frown"</span>: both(<span class="s">"mouthFrown"</span>),                   <span class="c"># AU15 lip corner depressor</span>
+        <span class="s">"jaw_open"</span>: blend.get(<span class="s">"jawOpen"</span>, 0.0),         <span class="c"># AU26 jaw drop</span>
+        <span class="s">"brow_up"</span>: brows,                              <span class="c"># AU1 + AU2 brow raisers</span>
+        <span class="s">"brow_down"</span>: both(<span class="s">"browDown"</span>),                 <span class="c"># AU4 brow lowerer</span>
+        <span class="s">"eye_squint"</span>: both(<span class="s">"eyeSquint"</span>),               <span class="c"># AU7 lid tightener</span>
+        <span class="s">"lips_tight"</span>: lips,                            <span class="c"># AU24 lip pressor</span>
+        <span class="s">"chin_up"</span>: blend.get(<span class="s">"mouthShrugLower"</span>, 0.0),  <span class="c"># AU17 chin raiser</span>
+    }</code></pre>
+<p>It then scores the <strong>change</strong> from the person's resting face. This matters more than I expected. On my own face the brow-lowering value is 0.35 at rest, and a rule with a fixed limit would read that as angry all the time.</p>
+<pre><code><span class="k">def</span> expression_scores(face, rest):
+    <span class="c">"""Step 4. Compare a face with the same person's resting face and return
+    five scores that add up to 1.
+
+    Only the CHANGE from the resting face counts, so a person whose brows sit
+    low is not called angry all the time. The divisors (0.8, 0.5, 0.45, 0.4,
+    0.18) are how far each feature moved on one test face for a full
+    expression. They are starting values, not trained.
+    """</span>
+    <span class="k">def</span> rise(x):                          <span class="c"># keep increases, ignore decreases</span>
+        <span class="k">return</span> max(0.0, x)
+
+    <span class="k">def</span> clip(x):                          <span class="c"># keep a score between 0 and 1</span>
+        <span class="k">return</span> min(1.0, max(0.0, x))
+
+    d = {name: face[name] - rest[name] <span class="k">for</span> name <span class="k">in</span> face}     <span class="c"># change from rest</span>
+
+    brow_raise = d[<span class="s">"brow_up"</span>] + rise(-d[<span class="s">"brow_down"</span>])
+    tension = (d[<span class="s">"lips_tight"</span>] + 0.5 * rise(d[<span class="s">"eye_squint"</span>])
+               + 0.5 * rise(d[<span class="s">"brow_down"</span>]))
+
+    smiling = clip(d[<span class="s">"smile"</span>] / 0.8)
+    surprised = clip(0.6 * brow_raise / 0.5 + 0.4 * d[<span class="s">"jaw_open"</span>] / 0.45)
+    angry = clip(tension / 0.4)
+    sad = clip((d[<span class="s">"chin_up"</span>] + d[<span class="s">"frown"</span>] - 0.5 * d[<span class="s">"lips_tight"</span>]) / 0.18)
+    neutral = 1.0 - max(smiling, surprised, sad, angry)
+
+    scores = [neutral, smiling, surprised, sad, angry]
+    squared = [s * s <span class="k">for</span> s <span class="k">in</span> scores]    <span class="c"># squaring makes the strongest score stand out</span>
+    total = sum(squared)
+    <span class="k">return</span> [s / total <span class="k">for</span> s <span class="k">in</span> squared]</code></pre>
+
+<h3>Steps 2 and 3: the view check</h3>
+<p>The third column of the matrix's rotation part is the direction in which the nose points.</p>
+<pre><code><span class="k">def</span> head_angles(matrix):
+    <span class="c">"""Step 2. Read yaw (turn left/right) and pitch (tilt up/down) in degrees
+    from the 4x4 face transformation matrix."""</span>
+    forward = (matrix[0][2], matrix[1][2], matrix[2][2])   <span class="c"># where the nose points</span>
+    yaw = math.degrees(math.atan2(forward[0], forward[2]))
+    pitch = math.degrees(math.atan2(-forward[1], math.hypot(forward[0], forward[2])))
+    <span class="k">return</span> yaw, pitch</code></pre>
+<pre><code><span class="k">def</span> view_trust(face_pixels, yaw, pitch):
+    <span class="c">"""Step 3. Return 0 when the face should not be classified, otherwise a
+    trust value between 0.3 and 1."""</span>
+    angle = max(abs(yaw), abs(pitch))
+    <span class="k">if</span> face_pixels &lt; MIN_FACE_PIXELS <span class="k">or</span> angle &gt; MAX_ANGLE:
+        <span class="k">return</span> 0.0
+    <span class="k">if</span> angle &lt;= GOOD_ANGLE:
+        <span class="k">return</span> 1.0
+    <span class="k">return</span> 1.0 - 0.7 * (angle - GOOD_ANGLE) / (MAX_ANGLE - GOOD_ANGLE)</code></pre>
+
+<h3>Steps 5 to 7: smoothing and deciding</h3>
+<pre><code><span class="k">class</span> Smoother:
+    <span class="c">"""Steps 5 to 7. Keeps a running average and decides when to speak."""</span>
+
+    <span class="k">def</span> __init__(self):
+        self.average = [1.0 / len(LABELS)] * len(LABELS)   <span class="c"># start with no opinion</span>
+        self.label = <span class="s">"not sure"</span>
+        self.last_spoken = <span class="k">None</span>
+
+    <span class="k">def</span> update(self, scores, trust):
+        <span class="c">"""Steps 5 and 6. Blend one frame into the average (a frame with low trust
+        moves it less), then pick a label."""</span>
+        a = trust * 2.0 / (WINDOW + 1)
+        self.average = [a * new + (1 - a) * old <span class="k">for</span> new, old <span class="k">in</span> zip(scores, self.average)]
+
+        top = max(range(len(LABELS)), key=<span class="k">lambda</span> i: self.average[i])
+        <span class="c"># hysteresis: the current label may stay a little below the threshold</span>
+        needed = THRESHOLD - 0.1 <span class="k">if</span> LABELS[top] == self.label <span class="k">else</span> THRESHOLD
+        self.label = LABELS[top] <span class="k">if</span> self.average[top] &gt;= needed <span class="k">else</span> <span class="s">"not sure"</span>
+        <span class="k">return</span> self.label
+
+    <span class="k">def</span> cue(self):
+        <span class="c">"""Step 7. Return a word to speak, or None. Speaks only for a new,
+        non-neutral label."""</span>
+        <span class="k">if</span> self.label == <span class="s">"neutral"</span>:
+            self.last_spoken = <span class="k">None</span>
+        <span class="k">if</span> self.label <span class="k">in</span> (<span class="s">"neutral"</span>, <span class="s">"not sure"</span>) <span class="k">or</span> self.label == self.last_spoken:
+            <span class="k">return</span> <span class="k">None</span>
+        self.last_spoken = self.label
+        <span class="k">return</span> self.label</code></pre>
+
+<div class="note warn">
+  <span class="note-title">What the numbers in the code are</span>
+  The window, threshold and angle limits are starting values. The five divisors in the scoring rules come from one recording of my own face, so they are tuned to one person and are not validated on a dataset. Measuring the resting face removes part of the difference between people, but expect to adjust the numbers for other faces. Sad and angry are the least reliable, because on my face they differ only in small lip movements.
+</div>
+
+<h2>Why these choices, and the alternatives</h2>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>My choice</th><th>Alternative</th><th>Use the alternative when</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Rules on blendshapes</th><td>A small trained network on the face crop <a class="cite" href="references.html#ref-9" title="Reference 9">[9]</a></td><td>You want accuracy more than readability. Replace <code>expression_scores</code> and keep the rest.</td></tr>
+    <tr><th scope="row">Running average</th><td>Mean over the last N frames <a class="cite" href="references.html#ref-11" title="Reference 11">[11]</a>, or a clip model <a class="cite" href="references.html#ref-12" title="Reference 12">[12]</a></td><td>The mean is as good. A clip model needs a far stronger processor.</td></tr>
+    <tr><th scope="row">Angle from the matrix</th><td>Pose from 2D landmarks and a 3D face model (OpenCV <code>solvePnP</code>)</td><td>Your landmark detector returns no matrix.</td></tr>
+    <tr><th scope="row">Every frame</th><td>Adaptive frame rate <a class="cite" href="references.html#ref-14" title="Reference 14">[14]</a></td><td>Battery life matters.</td></tr>
+  </tbody>
+</table>
+</div>
+<p><strong>Which is better?</strong> For scoring, a trained network is more accurate than hand-written rules; every benchmark number in this tutorial comes from one. For the steps around it, I think the simple versions are right for a wearable: they cost almost nothing and are easy to debug. The view check and the &ldquo;not sure&rdquo; state matter more to a blind user than one more point of accuracy.</p>
+
+<h2>What this program does not do</h2>
+<ul>
+  <li>It does not detect masks, sunglasses or hair (<a href="occlusion.html">Chapter 5</a>).</li>
+  <li>It follows one face only.</li>
+  <li>It prints words. A phone would play a sound or vibrate.</li>
+</ul>
+
+<nav class="pager" aria-label="Previous and next page">
+<a class="prev" href="occlusion.html"><span class="dir">Previous</span><span class="ttl">Covered faces and side views</span></a>
+<a class="next" href="results.html"><span class="dir">Next</span><span class="ttl">Successes and failures</span></a>
+</nav>
+</main>
+<footer class="site-footer">
+  <div class="article">
+    <span>Reading Faces, a research tutorial by Arnav Verma for CS 663 Computer Vision, Fall 2026.</span>
+    <span><a href="references.html">Annotated bibliography</a></span>
+  </div>
+</footer>
+</div>
+</div>
+<script src="js/site.js"></script>
+</body>
+</html>

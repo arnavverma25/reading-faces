@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The challenges | Reading Faces</title>
+<meta name="description" content="The main difficulties and limitations of mobile facial expression recognition for blind and low-vision users: delay, battery, expression versus emotion, bias, privacy and law.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&amp;family=Roboto+Serif:wght@600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Crect width='30' height='30' fill='%230071ce'/%3E%3Crect x='7' y='8' width='5' height='5' fill='%23fff'/%3E%3Crect x='18' y='8' width='5' height='5' fill='%23fff'/%3E%3Cpath d='M7 18 Q15 26 23 18' fill='none' stroke='%23fff' stroke-width='2.6'/%3E%3C/svg%3E">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="index.html"><svg viewBox="0 0 30 30" aria-hidden="true"><rect width="30" height="30" fill="#0071ce"/><rect x="7" y="8" width="5" height="5" fill="#fff"/><rect x="18" y="8" width="5" height="5" fill="#fff"/><path d="M7 18 Q15 26 23 18" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="square"/></svg><span>Reading Faces</span></a>
+  <nav class="top-links" aria-label="Main">
+    <a href="index.html#contents" class="hide-sm">Contents</a>
+    <a href="try.html" class="hide-sm">Try it</a>
+    <a href="references.html" class="hide-sm">References</a>
+    <a class="btn hide-sm" href="problem.html">Start the tutorial</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="sidebar">Menu</button>
+  </nav>
+</header>
+<div class="shell">
+<nav class="sidebar" id="sidebar" aria-label="Tutorial contents">
+<p class="sidebar-title">Tutorial contents</p>
+<ol>
+<li><a href="index.html"><span class="num"></span><span>Home</span></a></li>
+<li><a href="problem.html"><span class="num">01</span><span>The non-verbal gap</span></a></li>
+<li><a href="sensors.html"><span class="num">02</span><span>Sensor possibilities</span></a></li>
+<li><a href="pipeline.html"><span class="num">03</span><span>From frame to label</span></a></li>
+<li><a href="video.html"><span class="num">04</span><span>Video and changing emotions</span></a></li>
+<li><a href="occlusion.html"><span class="num">05</span><span>Covered faces and side views</span></a></li>
+<li><a href="build.html"><span class="num">06</span><span>Algorithm and code</span></a></li>
+<li><a href="results.html"><span class="num">07</span><span>Successes and failures</span></a></li>
+<li><a href="challenges.html" aria-current="page"><span class="num">08</span><span>The challenges</span></a></li>
+<li><a href="future.html"><span class="num">09</span><span>The future and conclusions</span></a></li>
+</ol><hr><ol>
+<li><a href="try.html"><span class="num"></span><span>Try it</span></a></li>
+<li><a href="references.html"><span class="num"></span><span>References</span></a></li>
+</ol>
+</nav>
+<div class="content">
+<main id="main" class="article">
+<header class="chapter-head">
+  <span class="eyebrow">Chapter 8 of 9</span>
+  <h1>The <span class="mark">challenges</span></h1>
+  <p class="lead">Even a perfect classifier would leave hard problems: delay, battery life, wrong ideas about emotion, unequal errors, and the privacy of the people being filmed.</p>
+  <div class="meta-row"><span class="tag blue">3 minute read</span><span class="tag">Limitations</span></div>
+</header>
+<section class="narration" aria-label="Narration for this page">
+  <div class="narration-top">
+    <audio controls preload="metadata" hidden>
+      <source src="audio/08-challenges.mp3" type="audio/mpeg">
+      <source src="audio/08-challenges.m4a" type="audio/mp4">
+    </audio>
+    <button type="button" class="speak" hidden>Play narration</button>
+  </div>
+  <details>
+    <summary>Read the narration text</summary>
+    <div class="transcript"><p>Chapter eight, the challenges.</p><p>First, speed. You might think the neural network is the slow part. It is not. A small network needs between sixteen and about two hundred milliseconds. The smoothing window and the time to say a word are each about four hundred milliseconds. So the way to feel faster is a shorter cue, like a tone or a buzz.</p><p>Second, battery. Process fewer frames when the face is steady, skip the classifier when the view is poor, and shrink the model with quantization.</p><p>Third, and most important: an expression is not an emotion. A study of professional actors found that they showed the same emotion with many different faces. So the device should describe what it sees, for example smiling, and leave the meaning to the user.</p><p>Fourth, bias. The training photos are mostly of young and middle-aged adults, so errors are not spread equally.</p><p>Fifth, privacy. The camera points at people who did not agree to be analysed. Everything should stay on the device, and designers have to check the law. In the European Union, emotion recognition at work and in schools is banned, with an exception for medical and safety reasons.</p></div>
+  </details>
+</section>
+
+<h2>Speed: where one second goes</h2>
+<figure>
+  <div class="fig-frame"><svg viewBox="0 0 720 200" role="img" aria-label="A one-second bar split into four parts: waiting for a frame, finding the face and classifying, the smoothing window, and saying one word. The last two parts are much longer than the first two." xmlns="http://www.w3.org/2000/svg"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#101820"/></marker><marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#0071ce"/></marker><pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#fff"/><line x1="0" y1="0" x2="0" y2="6" stroke="#5f6c7a" stroke-width="1.6"/></pattern></defs><text x="12" y="22" font-size="13" fill="#101820" text-anchor="start" font-weight="700" >Where one second goes</text><rect x="12.0" y="44" width="19.14" height="54" fill="#eef1f4" stroke="#101820" stroke-width="1.2" /><rect x="31.14" y="44" width="58.0" height="54" fill="#0071ce" stroke="#101820" stroke-width="1.2" /><rect x="89.14" y="44" width="232.0" height="54" fill="url(#hatch)" stroke="#101820" stroke-width="1.2" /><rect x="135.14" y="57" width="140" height="28" fill="#fff" opacity="0.9"/><text x="205.14" y="68" font-size="12" fill="#101820" text-anchor="middle" font-weight="700" >smoothing window</text><text x="205.14" y="82" font-size="10.5" fill="#5f6c7a" text-anchor="middle" font-weight="500" >12 frames = 400 ms</text><rect x="321.14" y="44" width="232.0" height="54" fill="#fdf1cf" stroke="#101820" stroke-width="1.2" /><text x="437.14" y="68" font-size="12" fill="#101820" text-anchor="middle" font-weight="700" >say one word</text><text x="437.14" y="82" font-size="10.5" fill="#5f6c7a" text-anchor="middle" font-weight="500" >about 400 ms</text><rect x="12.0" y="112" width="12" height="12" fill="#eef1f4" stroke="#101820" stroke-width="1" /><text x="30.0" y="123" font-size="11.5" fill="#101820" text-anchor="start" font-weight="500" >wait for a frame: up to 33 ms at 30 frames per second</text><rect x="12.0" y="132" width="12" height="12" fill="#0071ce" stroke="#101820" stroke-width="1" /><text x="30.0" y="143" font-size="11.5" fill="#101820" text-anchor="start" font-weight="500" >find the face and classify: tens of ms to about 200 ms, depending on the model</text><line x1="12" y1="168" x2="708" y2="168" stroke="#5f6c7a" stroke-width="1"/><line x1="12.0" y1="168" x2="12.0" y2="173" stroke="#5f6c7a" stroke-width="1"/><text x="12.0" y="186" font-size="10.5" fill="#5f6c7a" text-anchor="start" font-weight="500" >0 ms</text><line x1="157.0" y1="168" x2="157.0" y2="173" stroke="#5f6c7a" stroke-width="1"/><text x="157.0" y="186" font-size="10.5" fill="#5f6c7a" text-anchor="middle" font-weight="500" >250 ms</text><line x1="302.0" y1="168" x2="302.0" y2="173" stroke="#5f6c7a" stroke-width="1"/><text x="302.0" y="186" font-size="10.5" fill="#5f6c7a" text-anchor="middle" font-weight="500" >500 ms</text><line x1="447.0" y1="168" x2="447.0" y2="173" stroke="#5f6c7a" stroke-width="1"/><text x="447.0" y="186" font-size="10.5" fill="#5f6c7a" text-anchor="middle" font-weight="500" >750 ms</text><line x1="592.0" y1="168" x2="592.0" y2="173" stroke="#5f6c7a" stroke-width="1"/><text x="592.0" y="186" font-size="10.5" fill="#5f6c7a" text-anchor="middle" font-weight="500" >1000 ms</text></svg></div>
+  <figcaption><b>Figure 11.</b> A rough time budget from camera to cue. The classifier time is measured on a phone <a class="cite" href="references.html#ref-9" title="Reference 9">[9]</a>; the smoothing window and the spoken word are my own estimates. Original diagram made for this tutorial.</figcaption>
+</figure>
+<p>The network time is measured: 16 ms for the smallest model and 191 ms for the largest of the small ones, on a phone processor <a class="cite" href="references.html#ref-9" title="Reference 9">[9]</a>. A new frame arrives every 33 ms. The other two parts are my estimates: a 12-frame smoothing window holds 0.4 seconds of history, and a short spoken word takes about as long again.</p>
+<div class="note">
+  <span class="note-title">The lesson</span>
+  A network twice as fast barely changes what the user feels. The delay comes from waiting to be sure and from speaking. A short tone or a vibration saves more time than a faster chip.
+</div>
+
+<h2>Battery</h2>
+<ul>
+  <li><strong>Process fewer frames.</strong> An adaptive frame rate is reported to cut the computing by a factor of 1.5 to 40 <a class="cite" href="references.html#ref-14" title="Reference 14">[14]</a>.</li>
+  <li><strong>Stop early.</strong> No face or a failed view check means no classifier run.</li>
+  <li><strong>Shrink the model.</strong> Post-training quantization stores the weights as small integers. For its simplest form, Google's documentation lists a model 4 times smaller and 2 to 3 times faster on a CPU <a class="cite" href="references.html#ref-4" title="Reference 4">[4]</a>.</li>
+</ul>
+
+<h2>An expression is not an emotion</h2>
+<p>This is the deepest limit, and no engineering removes it. In 604 photographs, professional actors portrayed the same emotion with many different faces. Only fear, happiness and surprise were shown with moderate consistency, and viewers judged better when they knew the situation <a class="cite" href="references.html#ref-19" title="Reference 19">[19]</a>. The training labels share the weakness: two annotators agreed on only 60.7% of AffectNet images <a class="cite" href="references.html#ref-10" title="Reference 10">[10]</a>.</p>
+<div class="note warn">
+  <span class="note-title">What this means for the design</span>
+  Describe, do not interpret. The cue should mean &ldquo;smiling&rdquo; or &ldquo;brows lowered&rdquo;, not &ldquo;she is happy&rdquo;. The user knows the conversation and decides what a smile means.
+</div>
+
+<h2>Unequal errors</h2>
+<p>A 2025 study measured who is in four widely used datasets. More than half of the faces are White, there are about 50% more men than women, and people under 16 and over 54 together make up less than 5%. The two most accurate models in the study were also the two most biased <a class="cite" href="references.html#ref-18" title="Reference 18">[18]</a>. A device trained on such data will err more for some partners than for others, and its user cannot tell.</p>
+
+<h2>Privacy and the law</h2>
+<p>The camera films people who did not agree to be analysed. So: process everything on the user's own device, store no video, and make it obvious that a camera is on.</p>
+<p>Designers must also check the law. The European Union's AI Act prohibits AI systems that &ldquo;infer emotions of a natural person in the areas of workplace and education institutions&rdquo;, except for medical or safety reasons, since 2 February 2025 <a class="cite" href="references.html#ref-20" title="Reference 20">[20]</a>. Whether an assistive device falls under the exception is a question for a lawyer.</p>
+
+<h2>Limitations of the reviewed systems, compared</h2>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>System</th><th>Main limitation</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">RAN <a class="cite" href="references.html#ref-16" title="Reference 16">[16]</a></th><td>Single images only. One network pass per region; phone speed not reported.</td></tr>
+    <tr><th scope="row">Latent-OFER <a class="cite" href="references.html#ref-17" title="Reference 17">[17]</a></th><td>Heavy. The authors note that the rebuilding step transfers poorly to unfamiliar data.</td></tr>
+    <tr><th scope="row">MAE-DFER <a class="cite" href="references.html#ref-12" title="Reference 12">[12]</a></th><td>Too large for a wearable. Tested on movie and web clips, not a worn camera.</td></tr>
+    <tr><th scope="row">HSEmotion models <a class="cite" href="references.html#ref-9" title="Reference 9">[9]</a></th><td>No special handling of covered or turned faces.</td></tr>
+    <tr><th scope="row">Mukhiddinov et al. <a class="cite" href="references.html#ref-5" title="Reference 5">[5]</a></th><td>Needs a server. Synthetic masks, no timing, no user test.</td></tr>
+    <tr><th scope="row">Yalcin and Alisawi <a class="cite" href="references.html#ref-6" title="Reference 6">[6]</a></th><td>Large model, not yet run on glasses. Big drop from its own test set to AffectNet. No user test.</td></tr>
+  </tbody>
+</table>
+</div>
+<p>The image and video methods are limited by <strong>hardware and test data</strong>, the assistive systems by <strong>missing user studies</strong>. All output an emotion word for what is only a face movement.</p>
+
+<!-- INTERVIEW SECTION (optional). To show it: delete this whole line and the last line of the block, then replace the words in CAPITALS.
+<h2>Interview: what a researcher told me</h2>
+<p>I asked NAME, ROLE at UNIVERSITY OR COMPANY, about the hardest open problems. The answers below are summarised with permission; the exchange took place by email on DATE.</p>
+<div class="cols">
+  <div class="box"><h3>What is the hardest part of using this in real conversations?</h3><p>ANSWER.</p></div>
+  <div class="box"><h3>How should a system handle a covered or turned face?</h3><p>ANSWER.</p></div>
+  <div class="box"><h3>What would make it fast and light enough for glasses?</h3><p>ANSWER.</p></div>
+  <div class="box"><h3>What should students work on next?</h3><p>ANSWER.</p></div>
+</div>
+END OF INTERVIEW SECTION. Delete this whole line too. -->
+
+<nav class="pager" aria-label="Previous and next page">
+<a class="prev" href="results.html"><span class="dir">Previous</span><span class="ttl">Successes and failures</span></a>
+<a class="next" href="future.html"><span class="dir">Next</span><span class="ttl">The future and conclusions</span></a>
+</nav>
+</main>
+<footer class="site-footer">
+  <div class="article">
+    <span>Reading Faces, a research tutorial by Arnav Verma for CS 663 Computer Vision, Fall 2026.</span>
+    <span><a href="references.html">Annotated bibliography</a></span>
+  </div>
+</footer>
+</div>
+</div>
+<script src="js/site.js"></script>
+</body>
+</html>

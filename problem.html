@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The non-verbal gap | Reading Faces</title>
+<meta name="description" content="What blind and low-vision people miss in face-to-face conversation and the exact task a phone has to solve.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&amp;family=Roboto+Serif:wght@600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Crect width='30' height='30' fill='%230071ce'/%3E%3Crect x='7' y='8' width='5' height='5' fill='%23fff'/%3E%3Crect x='18' y='8' width='5' height='5' fill='%23fff'/%3E%3Cpath d='M7 18 Q15 26 23 18' fill='none' stroke='%23fff' stroke-width='2.6'/%3E%3C/svg%3E">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="index.html"><svg viewBox="0 0 30 30" aria-hidden="true"><rect width="30" height="30" fill="#0071ce"/><rect x="7" y="8" width="5" height="5" fill="#fff"/><rect x="18" y="8" width="5" height="5" fill="#fff"/><path d="M7 18 Q15 26 23 18" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="square"/></svg><span>Reading Faces</span></a>
+  <nav class="top-links" aria-label="Main">
+    <a href="index.html#contents" class="hide-sm">Contents</a>
+    <a href="try.html" class="hide-sm">Try it</a>
+    <a href="references.html" class="hide-sm">References</a>
+    <a class="btn hide-sm" href="problem.html">Start the tutorial</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="sidebar">Menu</button>
+  </nav>
+</header>
+<div class="shell">
+<nav class="sidebar" id="sidebar" aria-label="Tutorial contents">
+<p class="sidebar-title">Tutorial contents</p>
+<ol>
+<li><a href="index.html"><span class="num"></span><span>Home</span></a></li>
+<li><a href="problem.html" aria-current="page"><span class="num">01</span><span>The non-verbal gap</span></a></li>
+<li><a href="sensors.html"><span class="num">02</span><span>Sensor possibilities</span></a></li>
+<li><a href="pipeline.html"><span class="num">03</span><span>From frame to label</span></a></li>
+<li><a href="video.html"><span class="num">04</span><span>Video and changing emotions</span></a></li>
+<li><a href="occlusion.html"><span class="num">05</span><span>Covered faces and side views</span></a></li>
+<li><a href="build.html"><span class="num">06</span><span>Algorithm and code</span></a></li>
+<li><a href="results.html"><span class="num">07</span><span>Successes and failures</span></a></li>
+<li><a href="challenges.html"><span class="num">08</span><span>The challenges</span></a></li>
+<li><a href="future.html"><span class="num">09</span><span>The future and conclusions</span></a></li>
+</ol><hr><ol>
+<li><a href="try.html"><span class="num"></span><span>Try it</span></a></li>
+<li><a href="references.html"><span class="num"></span><span>References</span></a></li>
+</ol>
+</nav>
+<div class="content">
+<main id="main" class="article">
+<header class="chapter-head">
+  <span class="eyebrow">Chapter 1 of 9</span>
+  <h1>The <span class="mark">non-verbal gap</span></h1>
+  <p class="lead">Sighted people read faces all the time without noticing it. This chapter describes what is missing for a person who cannot see the face, and what exactly a phone would have to do about it.</p>
+  <div class="meta-row"><span class="tag blue">2 minute read</span><span class="tag">Problem definition</span></div>
+</header>
+<section class="narration" aria-label="Narration for this page">
+  <div class="narration-top">
+    <audio controls preload="metadata" hidden>
+      <source src="audio/01-problem.mp3" type="audio/mpeg">
+      <source src="audio/01-problem.m4a" type="audio/mp4">
+    </audio>
+    <button type="button" class="speak" hidden>Play narration</button>
+  </div>
+  <details>
+    <summary>Read the narration text</summary>
+    <div class="transcript"><p>Chapter one, the non-verbal gap.</p><p>When people talk face to face, the words are only part of the message. A smile, a frown or raised eyebrows tell you how your words were received. A person who is blind or has low vision does not get these signals.</p><p>Research shows that giving such cues back helps. In a 2024 study, blind and low-vision participants judged much better whether a partner was paying attention when they received extra cues. The same study also found that too many cues at once are hard to follow.</p><p>So the task is this. A camera films the conversation partner. Software on the phone decides which expression is on the face. The user gets one short cue, within about a second.</p><p>The easy version of this problem uses one clear photo from the front. A real conversation is video, with covered faces, turned heads and poor light. Those hard cases are what the rest of this tutorial is about.</p><p>Finally, keep two things apart. An expression is what the face does. An emotion is what the person feels. The camera only sees the first one.</p></div>
+  </details>
+</section>
+
+<h2>What gets lost</h2>
+<p>In a conversation, words carry only part of the message. A smile shows that a joke landed; a frown shows doubt. A person who is blind or has low vision (<strong>BLV</strong> from here on) has to guess from the voice alone.</p>
+<p>Giving the signals back helps. In a 2024 study, 16 BLV participants held conversations in virtual reality with and without extra cues for eye contact, nodding and head shaking. With the cues, they judged correctly whether a partner was paying attention 87.5% of the time. Without them the figure was 68.8% <a class="cite" href="references.html#ref-1" title="Reference 1">[1]</a>. The same study gives a warning: its first design had five cues, including smiling and frowning, and that was too many to follow while talking <a class="cite" href="references.html#ref-1" title="Reference 1">[1]</a>.</p>
+<div class="note good">
+  <span class="note-title">Two lessons for the design</span>
+  The cue is worth giving, and it must be small: few signals, short, and easy to ignore.
+</div>
+
+<h2>The task, stated exactly</h2>
+<div class="table-wrap">
+<table>
+  <tbody>
+    <tr><th scope="row">Input</th><td>Live video from a camera the user wears or holds, pointed at the conversation partner.</td></tr>
+    <tr><th scope="row">Output</th><td>One of a few labels (smiling, sad, angry, surprised, neutral) or &ldquo;not sure&rdquo;.</td></tr>
+    <tr><th scope="row">Timing</th><td>About one second from camera to cue. This is my design target.</td></tr>
+    <tr><th scope="row">Where it runs</th><td>On the phone. The video shows other people and should not go to a server.</td></tr>
+    <tr><th scope="row">Honesty</th><td>The system must notice when it cannot see the face, because the user cannot check.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Why one clear photo is the easy version</h2>
+<p>Most examples online label one sharp, front-facing photo. That works well, and it is not our problem. A real conversation differs in four ways.</p>
+<ul>
+  <li><strong>It is video.</strong> Expressions come and go within seconds (<a href="video.html">Chapter 4</a>).</li>
+  <li><strong>The face is often partly covered</strong> by glasses, a mask, hair, a beard or a hand (<a href="occlusion.html">Chapter 5</a>).</li>
+  <li><strong>People turn their heads,</strong> so a worn camera rarely gets a front view (<a href="occlusion.html">Chapter 5</a>).</li>
+  <li><strong>The picture is poor:</strong> bad light, a small face, a moving camera (<a href="sensors.html">Chapter 2</a>).</li>
+</ul>
+<figure>
+  <div class="fig-frame"><svg viewBox="0 0 720 236" role="img" aria-label="Six drawings of the same smiling face: one clear front view, and five everyday cases with sunglasses, a mask, hair, a beard, and the head turned away." xmlns="http://www.w3.org/2000/svg"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#101820"/></marker><marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#0071ce"/></marker><pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#fff"/><line x1="0" y1="0" x2="0" y2="6" stroke="#5f6c7a" stroke-width="1.6"/></pattern></defs><rect x="6" y="34" width="112" height="196" fill="#e2f5ec" stroke="#e2f5ec" stroke-width="1.2" /><rect x="124" y="34" width="584" height="196" fill="#eef1f4" stroke="#eef1f4" stroke-width="1.2" /><text x="62.0" y="22" font-size="12" fill="#167c57" text-anchor="middle" font-weight="700" >Most demos</text><text x="416.0" y="22" font-size="12" fill="#101820" text-anchor="middle" font-weight="700" >What a real conversation looks like</text><g transform="translate(62.0,108)"><ellipse cx="0" cy="0" rx="35.2" ry="44.0" fill="#fff" stroke="#101820" stroke-width="2.0"/><g transform="translate(0.0,0) scale(1.00,1)"><line x1="-21.1" y1="-18.5" x2="-6.2" y2="-18.5" stroke="#101820" stroke-width="2.6" stroke-linecap="round"/><line x1="21.1" y1="-18.5" x2="6.2" y2="-18.5" stroke="#101820" stroke-width="2.6" stroke-linecap="round"/><circle cx="-13.6" cy="-8.8" r="3.3" fill="#101820"/><circle cx="13.6" cy="-8.8" r="3.3" fill="#101820"/><path d="M0 -3.5 L-3.1 7.0 L2.2 7.0" fill="none" stroke="#101820" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M-14.1 16.7 Q0 29.9 14.1 16.7" fill="none" stroke="#101820" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g></g><text x="62.0" y="186" font-size="12" fill="#101820" text-anchor="middle" font-weight="700" >Clear front view</text><text x="62.0" y="204" font-size="10.5" fill="#5f6c7a" text-anchor="middle" font-weight="500" >nothing hidden</text><g transform="translate(180.0,108)"><ellipse cx="0" cy="0" rx="35.2" ry="44.0" fill="#fff" stroke="#101820" stroke-width="2.0"/><g transform="translate(0.0,0) scale(1.00,1)"><line x1="-21.1" y1="-18.5" x2="-6.2" y2="-18.5" stroke="#101820" stroke-width="2.6" stroke-linecap="round"/><line x1="21.1" y1="-18.5" x2="6.2" y2="-18.5" stroke="#101820" stroke-width="2.6" stroke-linecap="round"/><circle cx="-13.6" cy="-8.8" r="3.3" fill="#101820"/><circle cx="13.6" cy="-8.8" r="3.3" fill="#101820"/><path d="M0 -3.5 L-3.1 7.0 L2.2 7.0" fill="none" stroke="#101820" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M-14.1 16.7 Q0 29.9 14.1 16.7" fill="none" stroke="#101820" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="-22.4" y="-15.8" width="17.6" height="13.2" fill="#101820" stroke="#101820" stroke-width="2.0"/><rect x="4.8" y="-15.8" width="17.6" height="13.2" fill="#101820" stroke="#101820" stroke-width="2.0"/><line x1="-4.8" y1="-10.6" x2="4.8" y2="-10.6" stroke="#101820" stroke-width="2.0"/></g></g><text x="180.0" y="186" font-size="12" fill="#101820" text-anchor="middle" font-weight="700" >Sunglasses</text><text x="180.0" y="204" font-size="10.5" fill="#5f6c7a" text-anchor="middle" font-weight="500" >hides eyes and brows</text><g transform="translate(298.0,108)"><ellipse cx="0" cy="0" rx="35.2" ry="44.0" fill="#fff" stroke="#101820" stroke-width="2.0"/><g transform="translate(0.0,0) scale(1.00,1)"><line x1="-21.1" y1="-18.5" x2="-6.2" y2="-18.5" stroke="#101820" stroke-width="2.6" stroke-linecap="round"/><line x1="21.1" y1="-18.5" x2="6.2" y2="-18.5" stroke="#101820" stroke-width="2.6" stroke-linecap="round"/><circle cx="-13.6" cy="-8.8" r="3.3" fill="#101820"/><circle cx="13.6" cy="-8.8" r="3.3" fill="#101820"/><path d="M0 -3.5 L-3.1 7.0 L2.2 7.0" fill="none" stroke="#101820" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M-14.1 16.7 Q0 29.9 14.1 16.7" fill="none" stroke="#101820" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g><path d="M-31.7 -0.9 Q0 -8.8 31.7 -0.9 L26.4 27.3 Q0 44.9 -26.4 27.3 Z" fill="#e8f2fb" stroke="#0071ce" stroke-width="2.0"/><line x1="-22.0" y1="8.8" x2="22.0" y2="8.8" stroke="#0071ce" stroke-width="1.2" opacity="0.6"/><line x1="-22.0" y1="17.6" x2="22.0" y2="17.6" stroke="#0071ce" stroke-width="1.2" opacity="0.6"/></g><text x="298.0" y="186" font-size="12" fill="#101820" text-anchor="middle" font-weight="700" >Face mask</text><text x="298.0" y="204" font-size="10.5" fill="#5f6c7a" text-anchor="middle" font-weight="500" >hides mouth and nose</text><g transform="translate(416.0,108)"><ellipse cx="0" cy="0" rx="35.2" ry="44.0" fill="#fff" stroke="#101820" stroke-width="2.0"/><g transform="translate(0.0,0) scale(1.00,1)"><line x1="-21.1" y1="-18.5" x2="-6.2" y2="-18.5" stroke="#101820" stroke-width="2.6" stroke-linecap="round"/><line x1="21.1" y1="-18.5" x2="6.2" y2="-18.5" stroke="#101820" stroke-width="2.6" stroke-linecap="round"/><circle cx="-13.6" cy="-8.8" r="3.3" fill="#101820"/><circle cx="13.6" cy="-8.8" r="3.3" fill="#101820"/><path d="M0 -3.5 L-3.1 7.0 L2.2 7.0" fill="none" stroke="#101820" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M-14.1 16.7 Q0 29.9 14.1 16.7" fill="none" stroke="#101820" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g><path d="M-37.0 24.2 L-37.8 -15.4 Q-30.8 -49.3 0 -46.6 Q31.7 -48.4 37.0 -13.2 L26.4 -22.0 Q8.8 -13.2 -4.4 -13.2 L-5.3 30.8 Z" fill="#101820"/></g><text x="416.0" y="186" font-size="12" fill="#101820" text-anchor="middle" font-weight="700" >Hair over face</text><text x="416.0" y="204" font-size="10.5" fill="#5f6c7a" text-anchor="middle" font-weight="500" >hides brow, one side</text><g transform="translate(534.0,108)"><ellipse cx="0" cy="0" rx="35.2" ry="44.0" fill="#fff" stroke="#101820" stroke-width="2.0"/><g transform="translate(0.0,0) scale(1.00,1)"><line x1="-21.1" y1="-18.5" x2="-6.2" y2="-18.5" stroke="#101820" stroke-width="2.6" stroke-linecap="round"/><line x1="21.1" y1="-18.5" x2="6.2" y2="-18.5" stroke="#101820" stroke-width="2.6" stroke-linecap="round"/><circle cx="-13.6" cy="-8.8" r="3.3" fill="#101820"/><circle cx="13.6" cy="-8.8" r="3.3" fill="#101820"/><path d="M0 -3.5 L-3.1 7.0 L2.2 7.0" fill="none" stroke="#101820" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M-14.1 16.7 Q0 29.9 14.1 16.7" fill="none" stroke="#101820" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g><path d="M-32.6 8.8 Q-17.6 13.2 -13.2 11.4 Q0 8.8 13.2 11.4 Q17.6 13.2 32.6 8.8 Q30.8 44.0 0 45.8 Q-30.8 44.0 -32.6 8.8 Z" fill="#101820" opacity="0.88"/><path d="M-6.2 19.4 L6.2 19.4" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></g><text x="534.0" y="186" font-size="12" fill="#101820" text-anchor="middle" font-weight="700" >Beard</text><text x="534.0" y="204" font-size="10.5" fill="#5f6c7a" text-anchor="middle" font-weight="500" >hides lip corners, chin</text><g transform="translate(652.0,108)"><ellipse cx="0" cy="0" rx="35.2" ry="44.0" fill="#fff" stroke="#101820" stroke-width="2.0"/><g transform="translate(14.8,0) scale(0.50,1)"><line x1="-21.1" y1="-18.5" x2="-6.2" y2="-18.5" stroke="#101820" stroke-width="2.6" stroke-linecap="round"/><line x1="21.1" y1="-18.5" x2="6.2" y2="-18.5" stroke="#101820" stroke-width="2.6" stroke-linecap="round"/><circle cx="-13.6" cy="-8.8" r="3.3" fill="#101820"/><circle cx="13.6" cy="-8.8" r="3.3" fill="#101820"/><path d="M0 -3.5 L-3.1 7.0 L2.2 7.0" fill="none" stroke="#101820" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M-14.1 16.7 Q0 29.9 14.1 16.7" fill="none" stroke="#101820" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g><path d="M-8.8 -42.6 A35.2 44.0 0 0 0 -8.8 42.6 Z" fill="#eef1f4" stroke="#101820" stroke-width="2.0"/></g><text x="652.0" y="186" font-size="12" fill="#101820" text-anchor="middle" font-weight="700" >Turned away</text><text x="652.0" y="204" font-size="10.5" fill="#5f6c7a" text-anchor="middle" font-weight="500" >hides half the face</text></svg></div>
+  <figcaption><b>Figure 2.</b> The same smile in six situations. Simple demos handle only the first. Original diagram made for this tutorial.</figcaption>
+</figure>
+<p>A 2024 survey of the field lists the same things (occlusion, head pose, lighting, hairstyle, accessories) as the disturbances a robust system must survive <a class="cite" href="references.html#ref-2" title="Reference 2">[2]</a>.</p>
+
+<h2>Three terms to keep apart</h2>
+<div class="cols three">
+  <div class="box">
+    <h3>Expression and emotion</h3>
+    <p>An <strong>expression</strong> is what the face does. An <strong>emotion</strong> is what the person feels. A camera sees only the first (<a href="challenges.html">Chapter 8</a>).</p>
+  </div>
+  <div class="box">
+    <h3>Ordinary and micro</h3>
+    <p>A smile lasts about 0.5 to 4 seconds. A <strong>micro-expression</strong> is involuntary and lasts 0.065 to 0.5 seconds <a class="cite" href="references.html#ref-3" title="Reference 3">[3]</a>. The two are often mixed up.</p>
+  </div>
+  <div class="box">
+    <h3>FER</h3>
+    <p><strong>Facial expression recognition</strong>, the name of this research field.</p>
+  </div>
+</div>
+
+<nav class="pager" aria-label="Previous and next page">
+<a class="prev" href="index.html"><span class="dir">Previous</span><span class="ttl">Home</span></a>
+<a class="next" href="sensors.html"><span class="dir">Next</span><span class="ttl">Sensor possibilities</span></a>
+</nav>
+</main>
+<footer class="site-footer">
+  <div class="article">
+    <span>Reading Faces, a research tutorial by Arnav Verma for CS 663 Computer Vision, Fall 2026.</span>
+    <span><a href="references.html">Annotated bibliography</a></span>
+  </div>
+</footer>
+</div>
+</div>
+<script src="js/site.js"></script>
+</body>
+</html>

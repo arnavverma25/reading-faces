@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reading facial expressions on a phone, in real conversations | Reading Faces</title>
+<meta name="description" content="A research tutorial on mobile computer vision that tells blind and low-vision people how a conversation partner is reacting, on video, with covered faces and side views.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&amp;family=Roboto+Serif:wght@600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Crect width='30' height='30' fill='%230071ce'/%3E%3Crect x='7' y='8' width='5' height='5' fill='%23fff'/%3E%3Crect x='18' y='8' width='5' height='5' fill='%23fff'/%3E%3Cpath d='M7 18 Q15 26 23 18' fill='none' stroke='%23fff' stroke-width='2.6'/%3E%3C/svg%3E">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="index.html"><svg viewBox="0 0 30 30" aria-hidden="true"><rect width="30" height="30" fill="#0071ce"/><rect x="7" y="8" width="5" height="5" fill="#fff"/><rect x="18" y="8" width="5" height="5" fill="#fff"/><path d="M7 18 Q15 26 23 18" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="square"/></svg><span>Reading Faces</span></a>
+  <nav class="top-links" aria-label="Main">
+    <a href="index.html#contents" class="hide-sm">Contents</a>
+    <a href="try.html" class="hide-sm">Try it</a>
+    <a href="references.html" class="hide-sm">References</a>
+    <a class="btn hide-sm" href="problem.html">Start the tutorial</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="sidebar">Menu</button>
+  </nav>
+</header>
+<nav class="sidebar home-menu" id="sidebar" aria-label="Tutorial contents">
+<p class="sidebar-title">Tutorial contents</p>
+<ol>
+<li><a href="index.html" aria-current="page"><span class="num"></span><span>Home</span></a></li>
+<li><a href="problem.html"><span class="num">01</span><span>The non-verbal gap</span></a></li>
+<li><a href="sensors.html"><span class="num">02</span><span>Sensor possibilities</span></a></li>
+<li><a href="pipeline.html"><span class="num">03</span><span>From frame to label</span></a></li>
+<li><a href="video.html"><span class="num">04</span><span>Video and changing emotions</span></a></li>
+<li><a href="occlusion.html"><span class="num">05</span><span>Covered faces and side views</span></a></li>
+<li><a href="build.html"><span class="num">06</span><span>Algorithm and code</span></a></li>
+<li><a href="results.html"><span class="num">07</span><span>Successes and failures</span></a></li>
+<li><a href="challenges.html"><span class="num">08</span><span>The challenges</span></a></li>
+<li><a href="future.html"><span class="num">09</span><span>The future and conclusions</span></a></li>
+</ol><hr><ol>
+<li><a href="try.html"><span class="num"></span><span>Try it</span></a></li>
+<li><a href="references.html"><span class="num"></span><span>References</span></a></li>
+</ol>
+</nav>
+<main id="main">
+<section class="hero">
+  <span class="eyebrow">CS 663 research tutorial</span>
+  <h1>Reading facial expressions on a phone. <span class="mark">In real conversations.</span></h1>
+  <p class="lead">How mobile computer vision can tell a blind or low-vision person that their conversation partner just smiled, frowned or looked surprised, when the input is live video and the face is covered, far away or turned to the side.</p>
+  <div class="actions">
+    <a class="btn" href="problem.html">Start the tutorial</a>
+    <a class="btn ghost" href="try.html">Try the simulator</a>
+  </div>
+</section>
+
+<div class="home">
+  <section class="narration" aria-label="Narration for this page">
+  <div class="narration-top">
+    <audio controls preload="metadata" hidden>
+      <source src="audio/00-home.mp3" type="audio/mpeg">
+      <source src="audio/00-home.m4a" type="audio/mp4">
+    </audio>
+    <button type="button" class="speak" hidden>Play narration</button>
+  </div>
+  <details>
+    <summary>Read the narration text</summary>
+    <div class="transcript"><p>Welcome to Reading Faces. My name is Arnav Verma, and this is my research tutorial for CS 663, Computer Vision.</p><p>The topic is previous work on reading facial expressions with a phone or smart glasses, so that a person who is blind or has low vision can know how their conversation partner is reacting.</p><p>Most online examples of emotion detection use one clear photo of a face looking straight at the camera. That is the easy case. This tutorial is about the hard cases: live video, expressions that change, faces covered by glasses, masks, hair or a beard, and faces turned to the side.</p><p>There are nine short chapters, an interactive simulator with a quiz, and an annotated bibliography. Every page has a recording like this one. The numbers in square brackets are links to the references. The whole tutorial takes twenty-five to thirty minutes. Press Start the tutorial to begin.</p></div>
+  </details>
+</section>
+
+
+  <figure>
+    <div class="fig-frame"><svg viewBox="0 0 720 236" role="img" aria-label="The partner's face is filmed by a camera, analysed on the phone, and turned into one short sound or vibration for the user." xmlns="http://www.w3.org/2000/svg"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#101820"/></marker><marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#0071ce"/></marker><pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#fff"/><line x1="0" y1="0" x2="0" y2="6" stroke="#5f6c7a" stroke-width="1.6"/></pattern></defs><rect x="10" y="34" width="133" height="138" fill="#fff" stroke="#cfd5dc" stroke-width="1.2" /><text x="76.5" y="126" font-size="13" fill="#101820" text-anchor="middle" font-weight="700" >The partner</text><text x="76.5" y="144" font-size="11.5" fill="#5f6c7a" text-anchor="middle" font-weight="500" >smiles, frowns,</text><text x="76.5" y="159" font-size="11.5" fill="#5f6c7a" text-anchor="middle" font-weight="500" >looks puzzled</text><rect x="199" y="34" width="133" height="138" fill="#fff" stroke="#cfd5dc" stroke-width="1.2" /><text x="265.5" y="126" font-size="13" fill="#101820" text-anchor="middle" font-weight="700" >Camera</text><text x="265.5" y="144" font-size="11.5" fill="#5f6c7a" text-anchor="middle" font-weight="500" >on glasses</text><text x="265.5" y="159" font-size="11.5" fill="#5f6c7a" text-anchor="middle" font-weight="500" >or a phone</text><rect x="388" y="34" width="133" height="138" fill="#0071ce" stroke="#0071ce" stroke-width="1.2" /><text x="454.5" y="126" font-size="13" fill="#fff" text-anchor="middle" font-weight="700" >Vision software</text><text x="454.5" y="144" font-size="11.5" fill="#dbeaf8" text-anchor="middle" font-weight="500" >runs on</text><text x="454.5" y="159" font-size="11.5" fill="#dbeaf8" text-anchor="middle" font-weight="500" >the phone</text><rect x="577" y="34" width="133" height="138" fill="#fff" stroke="#cfd5dc" stroke-width="1.2" /><text x="643.5" y="126" font-size="13" fill="#101820" text-anchor="middle" font-weight="700" >The user</text><text x="643.5" y="144" font-size="11.5" fill="#5f6c7a" text-anchor="middle" font-weight="500" >hears a sound or</text><text x="643.5" y="159" font-size="11.5" fill="#5f6c7a" text-anchor="middle" font-weight="500" >feels a buzz</text><g transform="translate(76.5,76)"><ellipse cx="0" cy="0" rx="21.6" ry="27.0" fill="#fff" stroke="#101820" stroke-width="1.4"/><g transform="translate(0.0,0) scale(1.00,1)"><line x1="-13.0" y1="-11.3" x2="-3.8" y2="-11.3" stroke="#101820" stroke-width="1.8" stroke-linecap="round"/><line x1="13.0" y1="-11.3" x2="3.8" y2="-11.3" stroke="#101820" stroke-width="1.8" stroke-linecap="round"/><circle cx="-8.4" cy="-5.4" r="2.0" fill="#101820"/><circle cx="8.4" cy="-5.4" r="2.0" fill="#101820"/><path d="M0 -2.2 L-1.9 4.3 L1.4 4.3" fill="none" stroke="#101820" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round"/><path d="M-8.6 10.3 Q0 18.4 8.6 10.3" fill="none" stroke="#101820" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></g></g><rect x="235.5" y="56" width="60" height="40" fill="none" stroke="#101820" stroke-width="2"/><circle cx="265.5" cy="76" r="12" fill="none" stroke="#101820" stroke-width="2"/><circle cx="265.5" cy="76" r="4" fill="#101820"/><rect x="281.5" y="61" width="8" height="5" fill="#101820"/><rect x="434.5" y="56" width="40" height="40" fill="none" stroke="#fff" stroke-width="2"/><rect x="445.5" y="67" width="18" height="18" fill="#fff"/><line x1="442.5" y1="48" x2="442.5" y2="56" stroke="#fff" stroke-width="2"/><line x1="442.5" y1="96" x2="442.5" y2="104" stroke="#fff" stroke-width="2"/><line x1="426.5" y1="64" x2="434.5" y2="64" stroke="#fff" stroke-width="2"/><line x1="474.5" y1="64" x2="482.5" y2="64" stroke="#fff" stroke-width="2"/><line x1="454.5" y1="48" x2="454.5" y2="56" stroke="#fff" stroke-width="2"/><line x1="454.5" y1="96" x2="454.5" y2="104" stroke="#fff" stroke-width="2"/><line x1="426.5" y1="76" x2="434.5" y2="76" stroke="#fff" stroke-width="2"/><line x1="474.5" y1="76" x2="482.5" y2="76" stroke="#fff" stroke-width="2"/><line x1="466.5" y1="48" x2="466.5" y2="56" stroke="#fff" stroke-width="2"/><line x1="466.5" y1="96" x2="466.5" y2="104" stroke="#fff" stroke-width="2"/><line x1="426.5" y1="88" x2="434.5" y2="88" stroke="#fff" stroke-width="2"/><line x1="474.5" y1="88" x2="482.5" y2="88" stroke="#fff" stroke-width="2"/><circle cx="635.5" cy="76" r="9" fill="#101820"/><path d="M647.7 64.1 A17 17 0 0 1 647.7 87.9" fill="none" stroke="#101820" stroke-width="2" stroke-linecap="round"/><path d="M653.5 58.5 A25 25 0 0 1 653.5 93.5" fill="none" stroke="#101820" stroke-width="2" stroke-linecap="round"/><path d="M659.3 52.9 A33 33 0 0 1 659.3 99.1" fill="none" stroke="#101820" stroke-width="2" stroke-linecap="round"/><line x1="148" y1="103.0" x2="194" y2="103.0" stroke="#101820" stroke-width="1.6" marker-end="url(#ah)" /><text x="171.0" y="94.0" font-size="10.5" fill="#5f6c7a" text-anchor="middle" font-weight="500" >light</text><line x1="337" y1="103.0" x2="383" y2="103.0" stroke="#101820" stroke-width="1.6" marker-end="url(#ah)" /><text x="360.0" y="81.0" font-size="10.5" fill="#5f6c7a" text-anchor="middle" font-weight="500" >30 frames</text><text x="360.0" y="94.0" font-size="10.5" fill="#5f6c7a" text-anchor="middle" font-weight="500" >per second</text><line x1="526" y1="103.0" x2="572" y2="103.0" stroke="#101820" stroke-width="1.6" marker-end="url(#ah)" /><text x="549.0" y="81.0" font-size="10.5" fill="#5f6c7a" text-anchor="middle" font-weight="500" >one short</text><text x="549.0" y="94.0" font-size="10.5" fill="#5f6c7a" text-anchor="middle" font-weight="500" >cue</text><path d="M199 188 L199 198 L710 198 L710 188" fill="none" stroke="#5f6c7a" stroke-width="1.2"/><text x="454.5" y="216" font-size="12" fill="#101820" text-anchor="middle" font-weight="600" >Design target: camera to cue in about one second</text><text x="454.5" y="22" font-size="11.5" fill="#005ba6" text-anchor="middle" font-weight="600" >find face → check view → classify → smooth</text></svg></div>
+    <figcaption><b>Figure 1.</b> The system this tutorial is about: a camera films the partner, software on the phone works out the expression, and the user gets one short cue. Original diagram made for this tutorial.</figcaption>
+  </figure>
+
+  <div class="stats">
+    <div class="box"><span class="big">25-30 min</span><span class="small">from start to finish</span></div>
+    <div class="box yellow"><span class="big">9</span><span class="small">short chapters with narration</span></div>
+    <div class="box blue"><span class="big">1</span><span class="small">simulator, plus a quiz</span></div>
+    <div class="box navy"><span class="big">20</span><span class="small">annotated references</span></div>
+  </div>
+
+  <h2>Why this is not the usual emotion-detection post</h2>
+  <div class="cols">
+    <div class="box">
+      <h3>The easy version</h3>
+      <p>Take one sharp, front-facing photo and print &ldquo;happy&rdquo;. Many blogs show this, and it works well.</p>
+    </div>
+    <div class="box">
+      <h3>The version this tutorial covers</h3>
+      <p>A camera on glasses films a real conversation. The expression keeps changing. The partner wears sunglasses, has a beard, or looks away. The device has to be fast and quiet, and know when it cannot see.</p>
+    </div>
+  </div>
+
+  <h2 id="contents">Contents</h2>
+  <ol class="toc">
+    <li><a href="problem.html"><span class="n">01</span><span><span class="t">The non-verbal gap</span><span class="d">What is missing for someone who cannot see the face, and the exact task.</span></span><span class="m">2 min</span></a></li>
+    <li><a href="sensors.html"><span class="n">02</span><span><span class="t">Sensor possibilities</span><span class="d">Phone or camera glasses, and how big the face is in the picture.</span></span><span class="m">3 min</span></a></li>
+    <li><a href="pipeline.html"><span class="n">03</span><span><span class="t">From frame to label</span><span class="d">The six-step pipeline, Action Units, and three ways to classify an expression.</span></span><span class="m">3 min</span></a></li>
+    <li><a href="video.html"><span class="n">04</span><span><span class="t">Video and changing emotions</span><span class="d">Why frame-by-frame labels flicker, and how to fix it.</span></span><span class="m">3 min</span></a></li>
+    <li><a href="occlusion.html"><span class="n">05</span><span><span class="t">Covered faces and side views</span><span class="d">Glasses, masks, hair, beards and turned heads.</span></span><span class="m">3 min</span></a></li>
+    <li><a href="build.html"><span class="n">06</span><span><span class="t">Algorithm and code</span><span class="d">The method as seven steps and a short Python program.</span></span><span class="m">3 min</span></a></li>
+    <li><a href="results.html"><span class="n">07</span><span><span class="t">Successes and failures</span><span class="d">Six research systems compared, with the numbers they report.</span></span><span class="m">2 min</span></a></li>
+    <li><a href="challenges.html"><span class="n">08</span><span><span class="t">The challenges</span><span class="d">Delay, battery, expression versus emotion, bias and privacy.</span></span><span class="m">3 min</span></a></li>
+    <li><a href="future.html"><span class="n">09</span><span><span class="t">The future and conclusions</span><span class="d">Better cues, open questions, and what I would build.</span></span><span class="m">2 min</span></a></li>
+  </ol>
+  <div class="cols" style="margin-top:16px">
+    <a class="box" href="try.html" style="text-decoration:none;color:inherit"><h3>Try it: simulator and quiz</h3><p>Change the smoothing, cover the face, turn the head, and watch what the device says. Then answer eight questions.</p></a>
+    <a class="box" href="references.html" style="text-decoration:none;color:inherit"><h3>References</h3><p>The annotated bibliography, with a synopsis and a reliability rating for every source.</p></a>
+  </div>
+
+  <h2>How to use this tutorial</h2>
+  <p>Read in order with the <strong>Next</strong> button at the bottom of each page, or jump around with the menu. Every page starts with a short spoken summary. A number such as <a class="cite" href="references.html">[1]</a> links to the source of that fact. All diagrams were drawn for this tutorial.</p>
+</div>
+
+</main>
+<footer class="site-footer">
+  <div class="article" style="max-width:1080px">
+    <span>Reading Faces, a research tutorial by Arnav Verma for CS 663 Computer Vision, Fall 2026.</span>
+    <span><a href="references.html">Annotated bibliography</a></span>
+  </div>
+</footer>
+<script src="js/site.js"></script>
+</body>
+</html>

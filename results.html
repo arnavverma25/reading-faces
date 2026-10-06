@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Successes and failures | Reading Faces</title>
+<meta name="description" content="Six research systems for facial expression recognition compared by method, reported results, test conditions and hardware, with a chart of accuracy on covered and turned faces.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&amp;family=Roboto+Serif:wght@600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Crect width='30' height='30' fill='%230071ce'/%3E%3Crect x='7' y='8' width='5' height='5' fill='%23fff'/%3E%3Crect x='18' y='8' width='5' height='5' fill='%23fff'/%3E%3Cpath d='M7 18 Q15 26 23 18' fill='none' stroke='%23fff' stroke-width='2.6'/%3E%3C/svg%3E">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="index.html"><svg viewBox="0 0 30 30" aria-hidden="true"><rect width="30" height="30" fill="#0071ce"/><rect x="7" y="8" width="5" height="5" fill="#fff"/><rect x="18" y="8" width="5" height="5" fill="#fff"/><path d="M7 18 Q15 26 23 18" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="square"/></svg><span>Reading Faces</span></a>
+  <nav class="top-links" aria-label="Main">
+    <a href="index.html#contents" class="hide-sm">Contents</a>
+    <a href="try.html" class="hide-sm">Try it</a>
+    <a href="references.html" class="hide-sm">References</a>
+    <a class="btn hide-sm" href="problem.html">Start the tutorial</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="sidebar">Menu</button>
+  </nav>
+</header>
+<div class="shell">
+<nav class="sidebar" id="sidebar" aria-label="Tutorial contents">
+<p class="sidebar-title">Tutorial contents</p>
+<ol>
+<li><a href="index.html"><span class="num"></span><span>Home</span></a></li>
+<li><a href="problem.html"><span class="num">01</span><span>The non-verbal gap</span></a></li>
+<li><a href="sensors.html"><span class="num">02</span><span>Sensor possibilities</span></a></li>
+<li><a href="pipeline.html"><span class="num">03</span><span>From frame to label</span></a></li>
+<li><a href="video.html"><span class="num">04</span><span>Video and changing emotions</span></a></li>
+<li><a href="occlusion.html"><span class="num">05</span><span>Covered faces and side views</span></a></li>
+<li><a href="build.html"><span class="num">06</span><span>Algorithm and code</span></a></li>
+<li><a href="results.html" aria-current="page"><span class="num">07</span><span>Successes and failures</span></a></li>
+<li><a href="challenges.html"><span class="num">08</span><span>The challenges</span></a></li>
+<li><a href="future.html"><span class="num">09</span><span>The future and conclusions</span></a></li>
+</ol><hr><ol>
+<li><a href="try.html"><span class="num"></span><span>Try it</span></a></li>
+<li><a href="references.html"><span class="num"></span><span>References</span></a></li>
+</ol>
+</nav>
+<div class="content">
+<main id="main" class="article">
+<header class="chapter-head">
+  <span class="eyebrow">Chapter 7 of 9</span>
+  <h1>Successes <span class="mark">and failures</span></h1>
+  <p class="lead">How well does this work? The answer depends on where you test. This chapter puts the numbers from the papers side by side and separates what works from what still fails.</p>
+  <div class="meta-row"><span class="tag blue">2 minute read</span><span class="tag">Results</span><span class="tag">Comparison</span></div>
+</header>
+<section class="narration" aria-label="Narration for this page">
+  <div class="narration-top">
+    <audio controls preload="metadata" hidden>
+      <source src="audio/07-results.mp3" type="audio/mpeg">
+      <source src="audio/07-results.m4a" type="audio/mp4">
+    </audio>
+    <button type="button" class="speak" hidden>Play narration</button>
+  </div>
+  <details>
+    <summary>Read the narration text</summary>
+    <div class="transcript"><p>Chapter seven, successes and failures.</p><p>I compared six systems from the research. Two are built for covered and turned faces. One is built for video. One is built for phones. And two are built for blind and low-vision users.</p><p>The first finding is that no single system does everything. The systems that handle covered faces were not tested on phones. The phone system was not tested on covered faces. And the two assistive systems were not tested by blind or low-vision users at all.</p><p>The chart shows accuracy on covered and turned faces for three test sets. Region attention helps in every case, but look at the third panel. On the hardest test set, accuracy on covered faces is below sixty percent.</p><p>So where does it work? On clear front views, in good light, and for strong expressions like a big smile. Where does it fail? On natural photos from the web, on rare expressions such as disgust, and whenever the test data differ from the training data. One recent model scored ninety-eight percent on its own test set and about seventy-two percent on a standard one.</p></div>
+  </details>
+</section>
+
+<h2>Six systems side by side</h2>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>System</th><th>Built for</th><th>Method</th><th>Headline result</th><th>Runs on</th><th>Tested by BLV users</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">RAN, 2020 <a class="cite" href="references.html#ref-16" title="Reference 16">[16]</a></th><td>Covered and turned faces</td><td>Region crops with learned trust weights</td><td>86.9% on RAF-DB; 82.72% on its covered faces</td><td>Not reported for phones</td><td>No</td></tr>
+    <tr><th scope="row">Latent-OFER, 2023 <a class="cite" href="references.html#ref-17" title="Reference 17">[17]</a></th><td>Covered faces</td><td>Detect, mask, reconstruct</td><td>89.6% on RAF-DB; 84.2% on its covered faces</td><td>Not reported for phones</td><td>No</td></tr>
+    <tr><th scope="row">MAE-DFER, 2023 <a class="cite" href="references.html#ref-12" title="Reference 12">[12]</a></th><td>Video</td><td>Video transformer, pre-trained on unlabelled clips</td><td>74.43% WAR and 63.41% UAR on DFEW</td><td>Research hardware; about 85 million parameters</td><td>No</td></tr>
+    <tr><th scope="row">HSEmotion models, 2022 <a class="cite" href="references.html#ref-9" title="Reference 9">[9]</a></th><td>Phones</td><td>Small network per frame, results combined over the video</td><td>64.7% to 66.3% on AffectNet with 7 labels</td><td>Android phone, 16 to 191 ms per face</td><td>No</td></tr>
+    <tr><th scope="row">Mukhiddinov et al., 2023 <a class="cite" href="references.html#ref-5" title="Reference 5">[5]</a></th><td>BLV users; masks and low light</td><td>Brighten the image, then classify from the upper face</td><td>69.3% on AffectNet with synthetic masks</td><td>A server; glasses and phone only capture</td><td>No</td></tr>
+    <tr><th scope="row">Yalcin and Alisawi, 2026 <a class="cite" href="references.html#ref-6" title="Reference 6">[6]</a></th><td>BLV users; glasses</td><td>Vision transformer with attention modules</td><td>About 98% on the authors' cleaned set; about 72% on AffectNet</td><td>A GPU (11.5 ms per image); 331 MB model</td><td>No</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="note">
+  <span class="note-title">What the table shows</span>
+  No single system does everything. The methods for covered faces were not measured on phones, and the phone models were not measured on covered faces. Neither assistive system was tried by the people it is meant for: the most recent paper says that it &ldquo;does not currently include any data from visually impaired participants&rdquo; <a class="cite" href="references.html#ref-6" title="Reference 6">[6]</a>.
+</div>
+
+<h2>Covered and turned faces in numbers</h2>
+<figure>
+  <div class="fig-frame"><svg viewBox="0 0 720 330" role="img" aria-label="Bar chart of accuracy on covered and turned faces for a plain network and a region attention network on three datasets. The region network is higher in every case." xmlns="http://www.w3.org/2000/svg"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#101820"/></marker><marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#0071ce"/></marker><pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#fff"/><line x1="0" y1="0" x2="0" y2="6" stroke="#5f6c7a" stroke-width="1.6"/></pattern></defs><rect x="10" y="10" width="12" height="12" fill="#c2710c"/><text x="28" y="21" font-size="12" fill="#101820" text-anchor="start" font-weight="500" >Plain network</text><rect x="128" y="10" width="12" height="12" fill="#0071ce"/><text x="146" y="21" font-size="12" fill="#101820" text-anchor="start" font-weight="500" >Region attention network (RAN)</text><text x="710" y="21" font-size="11.5" fill="#5f6c7a" text-anchor="end" font-weight="500" >accuracy, %</text><text x="10" y="46" font-size="12.5" fill="#101820" text-anchor="start" font-weight="700" >RAF-DB</text><line x1="10" y1="262.0" x2="230" y2="262.0" stroke="#e6e9ed" stroke-width="1"/><line x1="10" y1="210.5" x2="230" y2="210.5" stroke="#e6e9ed" stroke-width="1"/><line x1="10" y1="159.0" x2="230" y2="159.0" stroke="#e6e9ed" stroke-width="1"/><line x1="10" y1="107.5" x2="230" y2="107.5" stroke="#e6e9ed" stroke-width="1"/><line x1="10" y1="56.0" x2="230" y2="56.0" stroke="#e6e9ed" stroke-width="1"/><line x1="10" y1="262" x2="230" y2="262" stroke="#5f6c7a" stroke-width="1.2"/><rect x="19.7" y="96.8" width="26" height="165.2" fill="#c2710c"><title>RAF-DB, Covered: Plain network 80.19%</title></rect><text x="32.7" y="91.8" font-size="10.5" fill="#101820" text-anchor="middle" font-weight="600" >80</text><rect x="47.7" y="91.6" width="26" height="170.4" fill="#0071ce"><title>RAF-DB, Covered: RAN 82.72%</title></rect><text x="60.7" y="86.6" font-size="10.5" fill="#101820" text-anchor="middle" font-weight="600" >83</text><text x="46.666666666666664" y="279" font-size="11" fill="#101820" text-anchor="middle" font-weight="600" >Covered</text><rect x="93.0" y="88.9" width="26" height="173.1" fill="#c2710c"><title>RAF-DB, Turned > 30°: Plain network 84.04%</title></rect><text x="106.0" y="83.9" font-size="10.5" fill="#101820" text-anchor="middle" font-weight="600" >84</text><rect x="121.0" y="83.3" width="26" height="178.7" fill="#0071ce"><title>RAF-DB, Turned > 30°: RAN 86.74%</title></rect><text x="134.0" y="78.3" font-size="10.5" fill="#101820" text-anchor="middle" font-weight="600" >87</text><text x="120.0" y="279" font-size="11" fill="#101820" text-anchor="middle" font-weight="600" >Turned</text><text x="120.0" y="293" font-size="11" fill="#5f6c7a" text-anchor="middle" font-weight="500" >> 30°</text><rect x="166.3" y="90.7" width="26" height="171.3" fill="#c2710c"><title>RAF-DB, Turned > 45°: Plain network 83.15%</title></rect><text x="179.3" y="85.7" font-size="10.5" fill="#101820" text-anchor="middle" font-weight="600" >83</text><rect x="194.3" y="86.5" width="26" height="175.5" fill="#0071ce"><title>RAF-DB, Turned > 45°: RAN 85.20%</title></rect><text x="207.3" y="81.5" font-size="10.5" fill="#101820" text-anchor="middle" font-weight="600" >85</text><text x="193.33333333333331" y="279" font-size="11" fill="#101820" text-anchor="middle" font-weight="600" >Turned</text><text x="193.33333333333331" y="293" font-size="11" fill="#5f6c7a" text-anchor="middle" font-weight="500" >> 45°</text><text x="250" y="46" font-size="12.5" fill="#101820" text-anchor="start" font-weight="700" >FERPlus</text><line x1="250" y1="262.0" x2="470" y2="262.0" stroke="#e6e9ed" stroke-width="1"/><line x1="250" y1="210.5" x2="470" y2="210.5" stroke="#e6e9ed" stroke-width="1"/><line x1="250" y1="159.0" x2="470" y2="159.0" stroke="#e6e9ed" stroke-width="1"/><line x1="250" y1="107.5" x2="470" y2="107.5" stroke="#e6e9ed" stroke-width="1"/><line x1="250" y1="56.0" x2="470" y2="56.0" stroke="#e6e9ed" stroke-width="1"/><line x1="250" y1="262" x2="470" y2="262" stroke="#5f6c7a" stroke-width="1.2"/><rect x="259.7" y="110.9" width="26" height="151.1" fill="#c2710c"><title>FERPlus, Covered: Plain network 73.33%</title></rect><text x="272.7" y="105.9" font-size="10.5" fill="#101820" text-anchor="middle" font-weight="600" >73</text><rect x="287.7" y="89.7" width="26" height="172.3" fill="#0071ce"><title>FERPlus, Covered: RAN 83.63%</title></rect><text x="300.7" y="84.7" font-size="10.5" fill="#101820" text-anchor="middle" font-weight="600" >84</text><text x="286.6666666666667" y="279" font-size="11" fill="#101820" text-anchor="middle" font-weight="600" >Covered</text><rect x="333.0" y="101.1" width="26" height="160.9" fill="#c2710c"><title>FERPlus, Turned > 30°: Plain network 78.11%</title></rect><text x="346.0" y="96.1" font-size="10.5" fill="#101820" text-anchor="middle" font-weight="600" >78</text><rect x="361.0" y="92.6" width="26" height="169.4" fill="#0071ce"><title>FERPlus, Turned > 30°: RAN 82.23%</title></rect><text x="374.0" y="87.6" font-size="10.5" fill="#101820" text-anchor="middle" font-weight="600" >82</text><text x="360.0" y="279" font-size="11" fill="#101820" text-anchor="middle" font-weight="600" >Turned</text><text x="360.0" y="293" font-size="11" fill="#5f6c7a" text-anchor="middle" font-weight="500" >> 30°</text><rect x="406.3" y="106.5" width="26" height="155.5" fill="#c2710c"><title>FERPlus, Turned > 45°: Plain network 75.50%</title></rect><text x="419.3" y="101.5" font-size="10.5" fill="#101820" text-anchor="middle" font-weight="600" >76</text><rect x="434.3" y="96.4" width="26" height="165.6" fill="#0071ce"><title>FERPlus, Turned > 45°: RAN 80.40%</title></rect><text x="447.3" y="91.4" font-size="10.5" fill="#101820" text-anchor="middle" font-weight="600" >80</text><text x="433.3333333333333" y="279" font-size="11" fill="#101820" text-anchor="middle" font-weight="600" >Turned</text><text x="433.3333333333333" y="293" font-size="11" fill="#5f6c7a" text-anchor="middle" font-weight="500" >> 45°</text><text x="490" y="46" font-size="12.5" fill="#101820" text-anchor="start" font-weight="700" >AffectNet</text><line x1="490" y1="262.0" x2="710" y2="262.0" stroke="#e6e9ed" stroke-width="1"/><line x1="490" y1="210.5" x2="710" y2="210.5" stroke="#e6e9ed" stroke-width="1"/><line x1="490" y1="159.0" x2="710" y2="159.0" stroke="#e6e9ed" stroke-width="1"/><line x1="490" y1="107.5" x2="710" y2="107.5" stroke="#e6e9ed" stroke-width="1"/><line x1="490" y1="56.0" x2="710" y2="56.0" stroke="#e6e9ed" stroke-width="1"/><line x1="490" y1="262" x2="710" y2="262" stroke="#5f6c7a" stroke-width="1.2"/><rect x="499.7" y="160.1" width="26" height="101.9" fill="#c2710c"><title>AffectNet, Covered: Plain network 49.48%</title></rect><text x="512.7" y="155.1" font-size="10.5" fill="#101820" text-anchor="middle" font-weight="600" >49</text><rect x="527.7" y="141.5" width="26" height="120.5" fill="#0071ce"><title>AffectNet, Covered: RAN 58.50%</title></rect><text x="540.7" y="136.5" font-size="10.5" fill="#101820" text-anchor="middle" font-weight="600" >58</text><text x="526.6666666666666" y="279" font-size="11" fill="#101820" text-anchor="middle" font-weight="600" >Covered</text><rect x="573.0" y="158.8" width="26" height="103.2" fill="#c2710c"><title>AffectNet, Turned > 30°: Plain network 50.10%</title></rect><text x="586.0" y="153.8" font-size="10.5" fill="#101820" text-anchor="middle" font-weight="600" >50</text><rect x="601.0" y="151.0" width="26" height="111.0" fill="#0071ce"><title>AffectNet, Turned > 30°: RAN 53.90%</title></rect><text x="614.0" y="146.0" font-size="10.5" fill="#101820" text-anchor="middle" font-weight="600" >54</text><text x="600.0" y="279" font-size="11" fill="#101820" text-anchor="middle" font-weight="600" >Turned</text><text x="600.0" y="293" font-size="11" fill="#5f6c7a" text-anchor="middle" font-weight="500" >> 30°</text><rect x="646.3" y="162.1" width="26" height="99.9" fill="#c2710c"><title>AffectNet, Turned > 45°: Plain network 48.50%</title></rect><text x="659.3" y="157.1" font-size="10.5" fill="#101820" text-anchor="middle" font-weight="600" >48</text><rect x="674.3" y="152.4" width="26" height="109.6" fill="#0071ce"><title>AffectNet, Turned > 45°: RAN 53.19%</title></rect><text x="687.3" y="147.4" font-size="10.5" fill="#101820" text-anchor="middle" font-weight="600" >53</text><text x="673.3333333333333" y="279" font-size="11" fill="#101820" text-anchor="middle" font-weight="600" >Turned</text><text x="673.3333333333333" y="293" font-size="11" fill="#5f6c7a" text-anchor="middle" font-weight="500" >> 45°</text><text x="10" y="316" font-size="11" fill="#5f6c7a" text-anchor="start" font-weight="500" >Bars start at zero. Hover over a bar for the exact value; the full numbers are in the table below.</text></svg></div>
+  <figcaption><b>Figure 10.</b> Accuracy on hand-picked covered faces and turned faces from three test sets, for a plain network and for the Region Attention Network. Chart made for this tutorial from the numbers reported in <a class="cite" href="references.html#ref-16" title="Reference 16">[16]</a>.</figcaption>
+</figure>
+<details class="more">
+<summary>Show the numbers behind Figure 10 as a table</summary>
+<div class="table-wrap">
+<table>
+  <caption>Accuracy in % <a class="cite" href="references.html#ref-16" title="Reference 16">[16]</a></caption>
+  <thead><tr><th>Test set</th><th>Condition</th><th class="num">Plain network</th><th class="num">Region attention</th><th class="num">Gain</th></tr></thead>
+  <tbody>
+    <tr><th scope="row" rowspan="3">RAF-DB</th><td>Covered</td><td class="num">80.19</td><td class="num">82.72</td><td class="num">+2.53</td></tr>
+    <tr><td>Turned more than 30&deg;</td><td class="num">84.04</td><td class="num">86.74</td><td class="num">+2.70</td></tr>
+    <tr><td>Turned more than 45&deg;</td><td class="num">83.15</td><td class="num">85.20</td><td class="num">+2.05</td></tr>
+    <tr><th scope="row" rowspan="3">FERPlus</th><td>Covered</td><td class="num">73.33</td><td class="num">83.63</td><td class="num">+10.30</td></tr>
+    <tr><td>Turned more than 30&deg;</td><td class="num">78.11</td><td class="num">82.23</td><td class="num">+4.12</td></tr>
+    <tr><td>Turned more than 45&deg;</td><td class="num">75.50</td><td class="num">80.40</td><td class="num">+4.90</td></tr>
+    <tr><th scope="row" rowspan="3">AffectNet</th><td>Covered</td><td class="num">49.48</td><td class="num">58.50</td><td class="num">+9.02</td></tr>
+    <tr><td>Turned more than 30&deg;</td><td class="num">50.10</td><td class="num">53.90</td><td class="num">+3.80</td></tr>
+    <tr><td>Turned more than 45&deg;</td><td class="num">48.50</td><td class="num">53.19</td><td class="num">+4.69</td></tr>
+  </tbody>
+</table>
+</div>
+</details>
+<p>Attention helps in every case. But on natural photos the level stays low: on AffectNet even the better method is right on fewer than six covered faces in ten.</p>
+
+<h2>Where it works</h2>
+<ul>
+  <li><strong>Clear front views of strong expressions.</strong> The best models pass 92% on RAF-DB <a class="cite" href="references.html#ref-2" title="Reference 2">[2]</a>.</li>
+  <li><strong>Test data that look like the training data.</strong> About 98% on a model's own cleaned set <a class="cite" href="references.html#ref-6" title="Reference 6">[6]</a>.</li>
+  <li><strong>Speed.</strong> The smallest network needs 16 ms per face on a phone <a class="cite" href="references.html#ref-9" title="Reference 9">[9]</a>, less than the 33 ms between two frames.</li>
+  <li><strong>Smiles.</strong> Strong, easy to see when the mouth is visible, and plentiful in the training data <a class="cite" href="references.html#ref-18" title="Reference 18">[18]</a>.</li>
+</ul>
+
+<h2>Where it fails</h2>
+<ul>
+  <li><strong>Natural photos.</strong> Leading methods are near 67% on AffectNet <a class="cite" href="references.html#ref-2" title="Reference 2">[2]</a>. The model that scored 98% on its own set fell to about 72% there <a class="cite" href="references.html#ref-6" title="Reference 6">[6]</a>.</li>
+  <li><strong>Natural video.</strong> The best listed DFEW result is 77.51% WAR and 67.01% UAR <a class="cite" href="references.html#ref-2" title="Reference 2">[2]</a>, on movie clips that are easier than a worn camera's view.</li>
+  <li><strong>Rare expressions.</strong> A strong video model recognises disgust 18.62% of the time <a class="cite" href="references.html#ref-12" title="Reference 12">[12]</a>.</li>
+  <li><strong>Covered mouths.</strong> A method built for masks reaches 69.3% <a class="cite" href="references.html#ref-5" title="Reference 5">[5]</a>, and people themselves lose 31% <a class="cite" href="references.html#ref-15" title="Reference 15">[15]</a>.</li>
+  <li><strong>The real task.</strong> None of the six reports results from live conversations filmed by a worn camera.</li>
+</ul>
+<div class="note good">
+  <span class="note-title">In short</span>
+  The parts exist: small fast classifiers, attention for covered faces, smoothing for video. Previous work has not yet put them together on a wearable and tested the result with BLV users.
+</div>
+
+<nav class="pager" aria-label="Previous and next page">
+<a class="prev" href="build.html"><span class="dir">Previous</span><span class="ttl">Algorithm and code</span></a>
+<a class="next" href="challenges.html"><span class="dir">Next</span><span class="ttl">The challenges</span></a>
+</nav>
+</main>
+<footer class="site-footer">
+  <div class="article">
+    <span>Reading Faces, a research tutorial by Arnav Verma for CS 663 Computer Vision, Fall 2026.</span>
+    <span><a href="references.html">Annotated bibliography</a></span>
+  </div>
+</footer>
+</div>
+</div>
+<script src="js/site.js"></script>
+</body>
+</html>

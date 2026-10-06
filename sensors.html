@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sensor possibilities | Reading Faces</title>
+<meta name="description" content="Phone or camera glasses, how large the face is in the picture, frame rate, and where the computing should run.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&amp;family=Roboto+Serif:wght@600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Crect width='30' height='30' fill='%230071ce'/%3E%3Crect x='7' y='8' width='5' height='5' fill='%23fff'/%3E%3Crect x='18' y='8' width='5' height='5' fill='%23fff'/%3E%3Cpath d='M7 18 Q15 26 23 18' fill='none' stroke='%23fff' stroke-width='2.6'/%3E%3C/svg%3E">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="index.html"><svg viewBox="0 0 30 30" aria-hidden="true"><rect width="30" height="30" fill="#0071ce"/><rect x="7" y="8" width="5" height="5" fill="#fff"/><rect x="18" y="8" width="5" height="5" fill="#fff"/><path d="M7 18 Q15 26 23 18" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="square"/></svg><span>Reading Faces</span></a>
+  <nav class="top-links" aria-label="Main">
+    <a href="index.html#contents" class="hide-sm">Contents</a>
+    <a href="try.html" class="hide-sm">Try it</a>
+    <a href="references.html" class="hide-sm">References</a>
+    <a class="btn hide-sm" href="problem.html">Start the tutorial</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="sidebar">Menu</button>
+  </nav>
+</header>
+<div class="shell">
+<nav class="sidebar" id="sidebar" aria-label="Tutorial contents">
+<p class="sidebar-title">Tutorial contents</p>
+<ol>
+<li><a href="index.html"><span class="num"></span><span>Home</span></a></li>
+<li><a href="problem.html"><span class="num">01</span><span>The non-verbal gap</span></a></li>
+<li><a href="sensors.html" aria-current="page"><span class="num">02</span><span>Sensor possibilities</span></a></li>
+<li><a href="pipeline.html"><span class="num">03</span><span>From frame to label</span></a></li>
+<li><a href="video.html"><span class="num">04</span><span>Video and changing emotions</span></a></li>
+<li><a href="occlusion.html"><span class="num">05</span><span>Covered faces and side views</span></a></li>
+<li><a href="build.html"><span class="num">06</span><span>Algorithm and code</span></a></li>
+<li><a href="results.html"><span class="num">07</span><span>Successes and failures</span></a></li>
+<li><a href="challenges.html"><span class="num">08</span><span>The challenges</span></a></li>
+<li><a href="future.html"><span class="num">09</span><span>The future and conclusions</span></a></li>
+</ol><hr><ol>
+<li><a href="try.html"><span class="num"></span><span>Try it</span></a></li>
+<li><a href="references.html"><span class="num"></span><span>References</span></a></li>
+</ol>
+</nav>
+<div class="content">
+<main id="main" class="article">
+<header class="chapter-head">
+  <span class="eyebrow">Chapter 2 of 9</span>
+  <h1>Sensor <span class="mark">possibilities</span></h1>
+  <p class="lead">The camera decides what the software can ever see. This chapter compares where the camera can sit, what it delivers, and where the computing should happen.</p>
+  <div class="meta-row"><span class="tag blue">3 minute read</span><span class="tag">Hardware</span></div>
+</header>
+<section class="narration" aria-label="Narration for this page">
+  <div class="narration-top">
+    <audio controls preload="metadata" hidden>
+      <source src="audio/02-sensors.mp3" type="audio/mpeg">
+      <source src="audio/02-sensors.m4a" type="audio/mp4">
+    </audio>
+    <button type="button" class="speak" hidden>Play narration</button>
+  </div>
+  <details>
+    <summary>Read the narration text</summary>
+    <div class="transcript"><p>Chapter two, sensor possibilities.</p><p>There are three realistic places for the camera. In the hand, on the chest, or on a pair of glasses. A phone in the hand has a good camera, but a blind user cannot check where it points. A phone on the chest is hands-free, but it looks up at the face from below. Camera glasses follow the head and give the best view, but they have a small battery and little computing power.</p><p>The second question is how big the face is in the picture. I worked this out with a simple formula. With a normal phone lens, a face two metres away is about one hundred pixels wide. With a wide-angle lens it is only about sixty pixels. So a wider lens finds faces more easily but sees less detail.</p><p>The third question is where the computing runs. Published prototypes for blind users send the video to a server. I recommend a different split: the camera on the glasses and the computing on the phone in the pocket, so that the video of other people never leaves the user's own device.</p></div>
+  </details>
+</section>
+
+<h2>Where can the camera sit?</h2>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Option</th><th>View of the partner</th><th>Main problem</th><th>Use it when</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Phone in the hand</th><td>Good when aimed well, but a blind user cannot check the aim</td><td>Not hands-free, and pointing a phone at someone feels rude</td><td>Short planned talks, testing</td></tr>
+    <tr><th scope="row">Phone on the chest</th><td>Looks up from below, so the chin or a beard covers more</td><td>Low angle, sways when the user moves</td><td>Sitting across a table</td></tr>
+    <tr><th scope="row">Camera glasses</th><td>Near eye level, turns with the head</td><td>Small battery, little computing power</td><td>Everyday conversation: the best view</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>The parts and what they deliver</h2>
+<p>Every option has the same parts: a <strong>lens</strong> that sets the field of view, an <strong>image sensor</strong>, a <strong>processor</strong>, a <strong>battery</strong>, an <strong>output</strong> (earbud or vibration motor), and a wireless link if camera and processor are apart.</p>
+<p><strong>Output format.</strong> The sensor delivers frames, commonly colour images of 1920 by 1080 pixels, 30 times per second. The neural networks use much smaller pictures. In Google's on-device face pipeline, the detector takes a 192 by 192 pixel image and the landmark model a 256 by 256 pixel crop of the face <a class="cite" href="references.html#ref-4" title="Reference 4">[4]</a>.</p>
+
+<h2>How big is the face in the picture?</h2>
+<p>This number matters most, and you can work it out in advance:</p>
+<div class="formula">face pixels = image width &times; face width &divide; (2 &times; distance &times; tan(field of view &divide; 2))</div>
+<p>I assume a face 15 cm wide and a frame 1920 pixels wide, and compare a normal phone lens (about 70&deg;) with a wide-angle lens (about 100&deg;).</p>
+<figure>
+  <div class="fig-frame"><svg viewBox="0 0 720 300" role="img" aria-label="Face size in pixels at 1, 2 and 4 metres for a 70 degree and a 100 degree camera, compared with the 256 pixel input of the landmark model." xmlns="http://www.w3.org/2000/svg"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#101820"/></marker><marker id="ahb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#0071ce"/></marker><pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#fff"/><line x1="0" y1="0" x2="0" y2="6" stroke="#5f6c7a" stroke-width="1.6"/></pattern></defs><text x="20" y="24" font-size="12.5" fill="#101820" text-anchor="start" font-weight="700" >Phone main camera, about 70° wide</text><rect x="20" y="129.17334351456776" width="102.82665648543225" height="102.82665648543225" fill="#e8f2fb" stroke="#0071ce" stroke-width="1.2" /><g transform="translate(71.41332824271612,180.58667175728388)"><ellipse cx="0" cy="0" rx="29.6" ry="37.0" fill="#fff" stroke="#101820" stroke-width="1.3"/><g transform="translate(0.0,0) scale(1.00,1)"><line x1="-17.8" y1="-15.5" x2="-5.2" y2="-15.5" stroke="#101820" stroke-width="1.7" stroke-linecap="round"/><line x1="17.8" y1="-15.5" x2="5.2" y2="-15.5" stroke="#101820" stroke-width="1.7" stroke-linecap="round"/><circle cx="-11.5" cy="-7.4" r="2.8" fill="#101820"/><circle cx="11.5" cy="-7.4" r="2.8" fill="#101820"/><path d="M0 -3.0 L-2.6 5.9 L1.9 5.9" fill="none" stroke="#101820" stroke-width="1.0" stroke-linejoin="round" stroke-linecap="round"/><path d="M-11.8 14.1 Q0 25.2 11.8 14.1" fill="none" stroke="#101820" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></g></g><text x="71.41332824271612" y="250" font-size="12" fill="#101820" text-anchor="middle" font-weight="700" >1 m</text><text x="71.41332824271612" y="266" font-size="11.5" fill="#5f6c7a" text-anchor="middle" font-weight="500" >206 px</text><rect x="144.82665648543224" y="180.58667175728388" width="51.413328242716126" height="51.413328242716126" fill="#e8f2fb" stroke="#0071ce" stroke-width="1.2" /><g transform="translate(170.5333206067903,206.29333587864193)"><ellipse cx="0" cy="0" rx="14.8" ry="18.5" fill="#fff" stroke="#101820" stroke-width="1.3"/><g transform="translate(0.0,0) scale(1.00,1)"><line x1="-8.9" y1="-7.8" x2="-2.6" y2="-7.8" stroke="#101820" stroke-width="1.7" stroke-linecap="round"/><line x1="8.9" y1="-7.8" x2="2.6" y2="-7.8" stroke="#101820" stroke-width="1.7" stroke-linecap="round"/><circle cx="-5.7" cy="-3.7" r="1.4" fill="#101820"/><circle cx="5.7" cy="-3.7" r="1.4" fill="#101820"/><path d="M0 -1.5 L-1.3 3.0 L0.9 3.0" fill="none" stroke="#101820" stroke-width="1.0" stroke-linejoin="round" stroke-linecap="round"/><path d="M-5.9 7.0 Q0 12.6 5.9 7.0" fill="none" stroke="#101820" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></g></g><text x="170.5333206067903" y="250" font-size="12" fill="#101820" text-anchor="middle" font-weight="700" >2 m</text><text x="170.5333206067903" y="266" font-size="11.5" fill="#5f6c7a" text-anchor="middle" font-weight="500" >103 px</text><rect x="218.23998472814836" y="206.29333587864193" width="25.706664121358063" height="25.706664121358063" fill="#e8f2fb" stroke="#0071ce" stroke-width="1.2" /><g transform="translate(231.0933167888274,219.14666793932096)"><ellipse cx="0" cy="0" rx="7.4" ry="9.3" fill="#fff" stroke="#101820" stroke-width="1.3"/><g transform="translate(0.0,0) scale(1.00,1)"><line x1="-4.4" y1="-3.9" x2="-1.3" y2="-3.9" stroke="#101820" stroke-width="1.7" stroke-linecap="round"/><line x1="4.4" y1="-3.9" x2="1.3" y2="-3.9" stroke="#101820" stroke-width="1.7" stroke-linecap="round"/><circle cx="-2.9" cy="-1.9" r="0.7" fill="#101820"/><circle cx="2.9" cy="-1.9" r="0.7" fill="#101820"/><path d="M0 -0.7 L-0.6 1.5 L0.5 1.5" fill="none" stroke="#101820" stroke-width="1.0" stroke-linejoin="round" stroke-linecap="round"/><path d="M-3.0 3.5 Q0 6.3 3.0 3.5" fill="none" stroke="#101820" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></g></g><text x="231.0933167888274" y="250" font-size="12" fill="#101820" text-anchor="middle" font-weight="700" >4 m</text><text x="231.0933167888274" y="266" font-size="11.5" fill="#5f6c7a" text-anchor="middle" font-weight="500" >51 px</text><text x="318" y="24" font-size="12.5" fill="#101820" text-anchor="start" font-weight="700" >Wide-angle camera, about 100° wide</text><rect x="318" y="171.58482655523585" width="60.41517344476416" height="60.41517344476416" fill="#e8f2fb" stroke="#0071ce" stroke-width="1.2" /><g transform="translate(348.2075867223821,201.79241327761792)"><ellipse cx="0" cy="0" rx="17.4" ry="21.7" fill="#fff" stroke="#101820" stroke-width="1.3"/><g transform="translate(0.0,0) scale(1.00,1)"><line x1="-10.4" y1="-9.1" x2="-3.0" y2="-9.1" stroke="#101820" stroke-width="1.7" stroke-linecap="round"/><line x1="10.4" y1="-9.1" x2="3.0" y2="-9.1" stroke="#101820" stroke-width="1.7" stroke-linecap="round"/><circle cx="-6.7" cy="-4.3" r="1.6" fill="#101820"/><circle cx="6.7" cy="-4.3" r="1.6" fill="#101820"/><path d="M0 -1.7 L-1.5 3.5 L1.1 3.5" fill="none" stroke="#101820" stroke-width="1.0" stroke-linejoin="round" stroke-linecap="round"/><path d="M-7.0 8.3 Q0 14.8 7.0 8.3" fill="none" stroke="#101820" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></g></g><text x="348.2075867223821" y="250" font-size="12" fill="#101820" text-anchor="middle" font-weight="700" >1 m</text><text x="348.2075867223821" y="266" font-size="11.5" fill="#5f6c7a" text-anchor="middle" font-weight="500" >121 px</text><rect x="400.41517344476415" y="201.79241327761792" width="30.20758672238208" height="30.20758672238208" fill="#e8f2fb" stroke="#0071ce" stroke-width="1.2" /><g transform="translate(415.5189668059552,216.89620663880896)"><ellipse cx="0" cy="0" rx="8.7" ry="10.9" fill="#fff" stroke="#101820" stroke-width="1.3"/><g transform="translate(0.0,0) scale(1.00,1)"><line x1="-5.2" y1="-4.6" x2="-1.5" y2="-4.6" stroke="#101820" stroke-width="1.7" stroke-linecap="round"/><line x1="5.2" y1="-4.6" x2="1.5" y2="-4.6" stroke="#101820" stroke-width="1.7" stroke-linecap="round"/><circle cx="-3.4" cy="-2.2" r="0.8" fill="#101820"/><circle cx="3.4" cy="-2.2" r="0.8" fill="#101820"/><path d="M0 -0.9 L-0.8 1.7 L0.5 1.7" fill="none" stroke="#101820" stroke-width="1.0" stroke-linejoin="round" stroke-linecap="round"/><path d="M-3.5 4.1 Q0 7.4 3.5 4.1" fill="none" stroke="#101820" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></g></g><text x="415.5189668059552" y="250" font-size="12" fill="#101820" text-anchor="middle" font-weight="700" >2 m</text><text x="415.5189668059552" y="266" font-size="11.5" fill="#5f6c7a" text-anchor="middle" font-weight="500" >60 px</text><rect x="462.41517344476415" y="216.89620663880896" width="15.10379336119104" height="15.10379336119104" fill="#e8f2fb" stroke="#0071ce" stroke-width="1.2" /><text x="469.96707012535967" y="250" font-size="12" fill="#101820" text-anchor="middle" font-weight="700" >4 m</text><text x="469.96707012535967" y="266" font-size="11.5" fill="#5f6c7a" text-anchor="middle" font-weight="500" >30 px</text><rect x="566" y="104.0" width="128.0" height="128.0" fill="none" stroke="#c2710c" stroke-width="1.6" stroke-dasharray="6 4"/><text x="630.0" y="96.0" font-size="11.5" fill="#c2710c" text-anchor="middle" font-weight="700" >256 px</text><text x="630.0" y="250" font-size="11" fill="#c2710c" text-anchor="middle" font-weight="600" >landmark model</text><text x="630.0" y="265" font-size="11" fill="#c2710c" text-anchor="middle" font-weight="600" >input size</text><line x1="10" y1="232" x2="710" y2="232" stroke="#cfd5dc" stroke-width="1"/><text x="360" y="286" font-size="11.5" fill="#5f6c7a" text-anchor="middle" font-weight="500" >Each square shows how many pixels the face fills in a 1920-pixel-wide frame, drawn at half size.</text></svg></div>
+  <figcaption><b>Figure 3.</b> Face size at three distances for two lenses. The dashed square is the 256-pixel input of the landmark model <a class="cite" href="references.html#ref-4" title="Reference 4">[4]</a>. Original diagram and calculation made for this tutorial.</figcaption>
+</figure>
+<p>A wide lens forgives poor aim, which helps a user who cannot see the screen. The price is detail: at two metres the face is about 60 pixels wide and must be enlarged four times for the landmark model.</p>
+<div class="note">
+  <span class="note-title">My working rule</span>
+  Keep the face at least 100 pixels wide: within about 2 metres for the normal lens and 1.2 metres for the wide one. This is my own estimate, not a published limit.
+</div>
+
+<h2>Frame rate</h2>
+<p>At 30 frames per second, an ordinary expression of 0.5 to 4 seconds covers 15 to 120 frames. A micro-expression of 0.065 to 0.5 seconds covers only 2 to 15, and the research datasets for those were mostly filmed at 60 to 200 frames per second <a class="cite" href="references.html#ref-3" title="Reference 3">[3]</a>. A phone camera suits ordinary expressions only.</p>
+
+<h2>Where should the computing happen?</h2>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Place</th><th>Good</th><th>Bad</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">On the glasses</th><td>Nothing else to carry</td><td>Tiny battery, weak processor, heat near the face</td></tr>
+    <tr><th scope="row">On the phone</th><td>Strong processor, large battery, video stays with the user</td><td>Needs a wireless link</td></tr>
+    <tr><th scope="row">On a server</th><td>Any model size</td><td>Network delay, and video of other people leaves the device</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Both published systems for visually impaired users lean on big hardware. In one, a server does the work and sends back speech <a class="cite" href="references.html#ref-5" title="Reference 5">[5]</a>. In the other, the model is 331 MB and untested on a small device <a class="cite" href="references.html#ref-6" title="Reference 6">[6]</a>.</p>
+<div class="note good">
+  <span class="note-title">What I recommend</span>
+  Camera on the glasses, computing on the phone, nothing sent to a server. This assumes enough light, a partner within about 2 metres, and a sound that tells the user when a face is found or lost.
+</div>
+
+<nav class="pager" aria-label="Previous and next page">
+<a class="prev" href="problem.html"><span class="dir">Previous</span><span class="ttl">The non-verbal gap</span></a>
+<a class="next" href="pipeline.html"><span class="dir">Next</span><span class="ttl">From frame to label</span></a>
+</nav>
+</main>
+<footer class="site-footer">
+  <div class="article">
+    <span>Reading Faces, a research tutorial by Arnav Verma for CS 663 Computer Vision, Fall 2026.</span>
+    <span><a href="references.html">Annotated bibliography</a></span>
+  </div>
+</footer>
+</div>
+</div>
+<script src="js/site.js"></script>
+</body>
+</html>
